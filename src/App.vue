@@ -7,9 +7,14 @@
 <script>
 export default {
   components: {
-    Main: () => import("./views/main/Main"),
+    Main: () => import("./views/Main/Main"),
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+}
+</style>
