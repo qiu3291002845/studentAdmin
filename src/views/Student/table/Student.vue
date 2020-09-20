@@ -1,5 +1,7 @@
 <template>
-  <div>学生系统</div>
+  <div>
+    学生系统
+  </div>
 </template>
 
 <script>

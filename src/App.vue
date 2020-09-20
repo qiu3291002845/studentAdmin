@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <Main></Main>
+    <transition name="left" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
-export default {
-  components: {
-    Main: () => import("./views/Main/Main"),
-  },
-};
+export default {};
 </script>
 
 <style lang="scss">
+
 * {
   margin: 0;
   padding: 0;

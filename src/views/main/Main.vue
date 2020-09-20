@@ -28,15 +28,18 @@
 
     <el-container style="height:100vh;">
       <el-header style="text-align: right; font-size: 12px;height:6.5vh">
-        <el-dropdown>
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
+        <el-dropdown trigger="click">
+          <el-button type="text" style="color:white">
+            管理员<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item>
+              <el-button type="text" @click="loginout" class="w-100"
+                >退出登录</el-button
+              ></el-dropdown-item
+            >
           </el-dropdown-menu>
         </el-dropdown>
-        <span>王小虎</span>
       </el-header>
 
       <el-main height="height:5vh;">
@@ -84,6 +87,12 @@ export default {
     return {
       tableData: Array(20).fill(item),
     };
+  },
+  methods: {
+    loginout() {
+      localStorage.clear();
+      this.$router.push("/login");
+    },
   },
 };
 </script>

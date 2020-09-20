@@ -6,30 +6,46 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Student",
-    component: () => import("../views/Student/table/Student.vue"),
+    component: () => import("../views/Main/Main.vue"),
+    children: [
+      {
+        path: "/",
+        name: "Student",
+        component: () => import("../views/Student/table/Student.vue"),
+      },
+      {
+        path: "/edit",
+        name: "StudentEdit",
+        component: () => import("../views/Student/edit/StudentEdit.vue"),
+      },
+      {
+        path: "/score",
+        name: "Score",
+        component: () => import("../views/Score/table/ScoreEdit.vue"),
+      },
+      {
+        path: "/scoreEdit",
+        name: "ScoreEdit",
+        component: () => import("../views/Score/edit/ScoreEdit.vue"),
+      },
+    ],
   },
   {
-    path: "/edit",
-    name: "StudentEdit",
-    component: () => import("../views/Student/edit/StudentEdit.vue"),
-  },
-  {
-    path: "/score",
-    name: "Score",
-    component: () => import("../views/Score/table/ScoreEdit.vue"),
-  },
-  {
-    path: "/scoreEdit",
-    name: "ScoreEdit",
-    component: () => import("../views/Score/edit/ScoreEdit.vue"),
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/Login/Login.vue"),
+    meta: { isPublic: true },
   },
 ];
-
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
 });
-
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !localStorage.token) {
+    return next("/login");
+  }
+  next();
+});
 export default router;
