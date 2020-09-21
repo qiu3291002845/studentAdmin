@@ -10,10 +10,11 @@ const routes = [
     component: () => import("../views/Student/table/Student.vue"),
   },
   {
-    path: "/edit",
+    path: "/edit/id",
     name: "StudentEdit",
     component: () => import("../views/Student/edit/StudentEdit.vue"),
   },
+
   {
     path: "/score",
     name: "Score",
