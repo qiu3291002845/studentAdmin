@@ -1,14 +1,11 @@
 <template>
   <el-container>
-    <el-aside
-      width="200px"
-      style="background-color: rgb(238, 241, 246);height:100vh"
-    >
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246);height:100vh">
       <el-menu router>
         <el-submenu index="1">
-          <template slot="title"
-            ><i class="el-icon-message"></i>学生管理</template
-          >
+          <template slot="title">
+            <i class="el-icon-message"></i>学生管理
+          </template>
           <el-menu-item-group>
             <template slot="title">学生系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
@@ -16,7 +13,9 @@
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
-          <template slot="title"><i class="el-icon-menu"></i>评分管理</template>
+          <template slot="title">
+            <i class="el-icon-menu"></i>评分管理
+          </template>
           <el-menu-item-group>
             <template slot="title">评分系统</template>
             <el-menu-item index="/score">评分系统</el-menu-item>
