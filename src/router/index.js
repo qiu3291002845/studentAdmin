@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import storage from "sweet-storage";
 
 Vue.use(VueRouter);
 
@@ -43,7 +44,7 @@ const router = new VueRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  if (!to.meta.isPublic && !localStorage.token) {
+  if (!to.meta.isPublic && !storage.get("token")) {
     return next("/login");
   }
   next();

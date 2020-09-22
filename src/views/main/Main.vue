@@ -76,6 +76,7 @@
 </style>
 
 <script>
+import storage from "sweet-storage";
 export default {
   name: "Main",
   data() {
@@ -90,7 +91,7 @@ export default {
   },
   methods: {
     loginout() {
-      localStorage.clear();
+      storage.clear();
       this.$router.push("/login");
     },
   },

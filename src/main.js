@@ -3,11 +3,16 @@ import "./plugins/axios";
 import App from "./App.vue";
 import router from "./router";
 import "./plugins/element.js";
+// 导入axios
 import axios from "axios";
 
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 Vue.prototype.$http = axios.create({
-  baseURL: "http://127.0.0.1:3000",
+  baseURL: "http://www.aimmeng.com:1903",
 });
+
 Vue.config.productionTip = false;
 
 import VueParticles from "vue-particles";

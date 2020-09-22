@@ -70,6 +70,10 @@
             ></el-button>
           </el-tooltip>
         </el-form-item>
+        <el-form-item class="read">
+          <el-checkbox v-model="readUsername" label="记住账号"></el-checkbox>
+          <el-checkbox v-model="readPassword" label="记住密码"></el-checkbox>
+        </el-form-item>
         <el-form-item>
           <el-button class="submit" type="primary" @click="onSubmit('form')"
             >登录</el-button
@@ -81,10 +85,13 @@
 </template>
 
 <script>
+import storage from "sweet-storage";
 export default {
   name: "Login",
   data() {
     return {
+      readPassword: false,
+      readUsername: true,
       userFrom: {
         username: "",
         password: "",
@@ -106,6 +113,26 @@ export default {
     };
   },
   methods: {
+    storageInfo() {
+      if (this.readUsername) {
+        if (this.userFrom.username !== "") {
+          storage.save(
+            "username",
+            this.userFrom.username,
+            1000 * 60 * 60 * 24 * 21
+          );
+        }
+      }
+      if (this.readPassword) {
+        if (this.userFrom.password !== "") {
+          storage.save(
+            "password",
+            this.userFrom.password,
+            1000 * 60 * 60 * 24 * 21
+          );
+        }
+      }
+    },
     // 检验验证码
     async validateCode(rule, value, callback) {
       if (!value) {
@@ -127,7 +154,10 @@ export default {
             this.$message.error(data.message);
           } else {
             this.$message.success("登录成功");
-            localStorage.setItem("token", data.token);
+            this.storageInfo();
+
+            //1000 * 60 * 60 * 24 * 7
+            storage.save("token", data.token, 1000 * 60 * 60 * 24 * 7);
             this.$router.push("/");
           }
         } else {
@@ -137,15 +167,30 @@ export default {
       });
     },
     async reqCode() {
-      const { data } = await this.$http.get("login/code");
+      const { data } = await this.$http.get("/login/code");
       sessionStorage.setItem("code", data.text);
       this.imgSvg = data.img;
     },
     resetCode() {
       this.reqCode();
     },
+    readInfo() {
+      if (storage.get("username")) {
+        this.userFrom.username = storage.get("username");
+        this.readUsername = true;
+      } else {
+        this.readUsername = false;
+      }
+      if (storage.get("password")) {
+        this.userFrom.password = storage.get("password");
+        this.readPassword = true;
+      } else {
+        this.readPassword = false;
+      }
+    },
   },
   created() {
+    this.readInfo();
     this.reqCode();
   },
 };
@@ -173,6 +218,19 @@ body {
     .userForm {
       margin: 0 auto;
       text-align: left;
+      .read {
+        margin: 1.175rem 5rem 0rem 5rem;
+        .el-checkbox__label {
+          font-size: 1.235rem;
+          color: #333;
+        }
+        .is-checked {
+          .el-checkbox__inner {
+            background-color: #409eff;
+            border-color: #409eff;
+          }
+        }
+      }
       .imgCode {
         .el-input {
           width: 14.875rem;
@@ -209,7 +267,7 @@ body {
         height: 3.3rem;
         font-size: 1.45rem;
         background: #409eff;
-        margin: 2.75rem 5rem 0rem 5rem;
+        margin: 1.875rem 5rem 0rem 5rem;
       }
     }
   }
