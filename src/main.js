@@ -6,8 +6,8 @@ import "./plugins/element.js";
 // 导入axios
 import axios from "axios";
 
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies)
+import VueCookies from "vue-cookies";
+Vue.use(VueCookies);
 
 Vue.prototype.$http = axios.create({
   baseURL: "http://www.aimmeng.com:1903",

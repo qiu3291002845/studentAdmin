@@ -29,6 +29,12 @@ const routes = [
         name: "ScoreEdit",
         component: () => import("../views/Score/edit/ScoreEdit.vue"),
       },
+      {
+        path: "/details/:id",
+        name: "details",
+        props: true,
+        component: () => import("../views/details/details.vue"),
+      },
     ],
   },
   {
@@ -40,7 +46,7 @@ const routes = [
 ];
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes,
 });
 router.beforeEach((to, from, next) => {
