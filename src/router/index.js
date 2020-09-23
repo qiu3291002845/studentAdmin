@@ -44,12 +44,6 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/login",
-    name: "Login",
-    component: () => import("../views/Login/Login.vue"),
-    meta: { isPublic: true },
-  },
 ];
 const router = new VueRouter({
   mode: "history",
