@@ -10,12 +10,12 @@
   "dependencies": {
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
-    "core-js": "^3.6.5",
-    "element-ui": "^2.4.5",
     "sweet-storage": "^1.0.2",
     "moment": "^2.28.0",
-    "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
+    "core-js": "^3.6.5",
+    "element-ui": "^2.4.5",
+    "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {

@@ -5,7 +5,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Student",
+};
 </script>
 
 <style scoped></style>

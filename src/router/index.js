@@ -17,6 +17,13 @@ const routes = [
       {
         path: "/edit",
         name: "StudentEdit",
+        props: true,
+        component: () => import("../views/Student/edit/StudentEdit.vue"),
+      },
+      {
+        path: "/edit/:id",
+        name: "StudentEdit",
+        props: true,
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
       {
