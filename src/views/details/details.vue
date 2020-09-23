@@ -1,5 +1,9 @@
 <template>
   <div class="details">
+    <span @click="returns" class="returns">
+      <span class="iconfont icon-fanhui1"></span>
+      返回
+    </span>
     <el-divider class="headerStudent" content-position="left">学生基本信息</el-divider>
     <header>
       <div class="avatar">
@@ -53,9 +57,12 @@
         </ul>
       </div>
     </header>
-    <section v-if="obj.professionScore != false">
+    <section>
       <h3>个人专业成绩</h3>
       <p>Personal professional performance</p>
+      <div v-if="obj.professionScore != false">
+        <h2>暂无成绩</h2>
+      </div>
       <ul>
         <li v-for="(item,index) in obj.professionScore" :key="index">
           <div class="professionScore">
@@ -73,9 +80,12 @@
         </div>
       </ul>
     </section>
-    <footer v-show="obj.usallyScore != false">
+    <footer>
       <h3>个人平时表现明细</h3>
       <p>Personal performance details</p>
+      <div v-show="obj.usallyScore != false">
+        <h2>暂无成绩</h2>
+      </div>
       <ul>
         <li v-for="(item,indexn) in obj.usallyScore" :key="indexn">
           <div class="conent">
@@ -184,6 +194,9 @@ export default {
     },
   },
   methods: {
+    returns() {
+      this.$router.go(-1);
+    },
     async findStudent() {
       const { data } = await this.$http.get(`/student/${this.id}`);
       this.obj = data.data;
@@ -272,6 +285,13 @@ ul {
 }
 #el-drawer__title {
   display: none;
+}
+.returns {
+  margin-right: 30px;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
 }
 .details {
   .headerStudent {
