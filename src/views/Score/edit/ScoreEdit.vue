@@ -1,7 +1,5 @@
 <template>
-  <div>
-    评分系统
-  </div>
+  <div>评分编辑</div>
 </template>
 
 <script>

@@ -18,6 +18,8 @@ Vue.config.productionTip = false;
 import VueParticles from "vue-particles";
 Vue.use(VueParticles);
 
+import "bootstrap/dist/css/bootstrap.css";
+
 new Vue({
   router,
   render: (h) => h(App),

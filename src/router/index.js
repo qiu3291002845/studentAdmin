@@ -22,7 +22,7 @@ const routes = [
       {
         path: "/score",
         name: "Score",
-        component: () => import("../views/Score/table/ScoreEdit.vue"),
+        component: () => import("../views/Score/table/Score.vue"),
       },
       {
         path: "/scoreEdit",
