@@ -192,6 +192,7 @@ export default {
     $route: function(e) {
       if (e.path == "/edit") {
         this.ruleForm = {};
+        this.$refs["ruleForm"].resetFields();
       }
     },
   },
