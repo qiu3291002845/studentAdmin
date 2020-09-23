@@ -15,6 +15,12 @@ const routes = [
     component: () => import("../views/Student/edit/StudentEdit.vue"),
   },
   {
+    path: "/edit/:id",
+    name: "StudentEdit",
+    prop:true,
+    component: () => import("../views/Student/edit/StudentEdit.vue"),
+  },
+  {
     path: "/score",
     name: "Score",
     component: () => import("../views/Score/table/ScoreEdit.vue"),
@@ -22,6 +28,12 @@ const routes = [
   {
     path: "/scoreEdit",
     name: "ScoreEdit",
+    component: () => import("../views/Score/edit/ScoreEdit.vue"),
+  },
+  {
+    path: "/scoreEdit/:id",
+    name: "ScoreEdit",
+    prop:true,
     component: () => import("../views/Score/edit/ScoreEdit.vue"),
   },
 ];
