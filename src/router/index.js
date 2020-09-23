@@ -15,6 +15,12 @@ const routes = [
     component: () => import("../views/Student/edit/StudentEdit.vue"),
   },
   {
+    path: "/edit/:id",
+    name: "StudentEdit",
+    props:true,
+    component: () => import("../views/Student/edit/StudentEdit.vue"),
+  },
+  {
     path: "/score",
     name: "Score",
     component: () => import("../views/Score/table/ScoreEdit.vue"),
@@ -28,7 +34,6 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes,
 });
 
