@@ -5,6 +5,8 @@ import "./plugins/element.js";
 //引入axios
 import axios from "axios";
 
+import "bootstrap/dist/css/bootstrap.css";
+
 Vue.prototype.$http = axios.create({
   baseURL: "http://www.aimmeng.com:1903/",
 });
