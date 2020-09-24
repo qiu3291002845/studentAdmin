@@ -137,6 +137,9 @@ export default {
       const { data } = await this.$http.get(
         `/student?count=${this.count}&pageSize=${this.pageSize}`
       );
+      console.log("====================================");
+      console.log(data);
+      console.log("====================================");
       this.tableData = data.data;
     },
     information(id) {

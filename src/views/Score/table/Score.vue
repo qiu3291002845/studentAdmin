@@ -33,29 +33,37 @@
 
             <el-form-item>
               <el-form-item v-if="props.row.professionScore == 0">
-                <p class="asss">{{ "专业成绩" + " " + "您现在还没有成绩"}}</p>
+                <p class="asss">{{ "专业成绩" + " " + "您现在还没有成绩" }}</p>
               </el-form-item>
               <el-form-item
                 v-else
-                v-for="(item,index) in props.row.professionScore"
+                v-for="(item, index) in props.row.professionScore"
                 :key="index"
                 class="paaa"
               >
-                <p class="asss">{{`平时成绩${index+1}学期` + " " + item[0].fullStack + "分"}}</p>
+                <p class="asss">
+                  {{
+                    `平时成绩${index + 1}学期` + " " + item[0].fullStack + "分"
+                  }}
+                </p>
               </el-form-item>
             </el-form-item>
 
             <el-form-item>
               <el-form-item v-if="props.row.professionScore == 0">
-                <p class="asss">{{ "平时成绩" + " " + "您现在还没有成绩"}}</p>
+                <p class="asss">{{ "平时成绩" + " " + "您现在还没有成绩" }}</p>
               </el-form-item>
               <el-form-item
                 v-else
-                v-for="(items,index) in props.row.professionScore"
+                v-for="(items, index) in props.row.professionScore"
                 :key="index"
                 class="pass"
               >
-                <p class="asss">{{ `专业成绩${index+1}学期` + " " + items[0].quality + "分" }}</p>
+                <p class="asss">
+                  {{
+                    `专业成绩${index + 1}学期` + " " + items[0].quality + "分"
+                  }}
+                </p>
               </el-form-item>
             </el-form-item>
           </el-form>
@@ -67,11 +75,13 @@
       <el-table-column prop="sex" label="性别" width="60"></el-table-column>
       <el-table-column prop="system" label="系别" width="100"></el-table-column>
       <el-table-column prop="class" label="班级"></el-table-column>
-      <el-table-column label="本学期平时成绩">
+      <el-table-column label="本学期平时成绩评价">
         <el-row slot-scope="scope">
           <!-- <span>{{scope}}</span> -->
 
-          <div v-if="scope.row.usallyScore.length == 0">{{ '暂时无成绩!!!'}}</div>
+          <div v-if="scope.row.usallyScore.length == 0">
+            {{ "暂时无成绩!!!" }}
+          </div>
           <el-tooltip
             class="item"
             effect="light"
@@ -79,22 +89,38 @@
             placement="top"
             v-else
           >
-            <div class="shenglue">{{scope.row.usallyScore[0][0].description}}</div>
+            <div class="shenglue">
+              {{ scope.row.usallyScore[0][0].description }}
+            </div>
           </el-tooltip>
         </el-row>
       </el-table-column>
-      <el-table-column label="本学期专业成绩评价">
+      <el-table-column label="本学期专业成绩">
         <el-row slot-scope="scope">
-          <div v-if="scope.row.professionScore.length == 0">{{'您里面没有东西!!!'}}</div>
-          <div v-else>{{"专业成绩：" + scope.row.professionScore[0][0].quality}}</div>
+          <div v-if="scope.row.professionScore.length == 0">
+            {{ "您里面没有东西!!!" }}
+          </div>
+          <div v-else>
+            {{ "专业成绩：" + scope.row.professionScore[0][0].quality }}
+          </div>
         </el-row>
       </el-table-column>
       <el-table-column prop="name" label="编辑/个人信息" width="230">
         <el-row slot-scope="scope">
-          <el-tooltip class="item" effect="dark" content="进入编辑信息" placement="top">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="进入编辑信息"
+            placement="top"
+          >
             <el-button @click="edit(scope.row._id)">编辑</el-button>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="个人详情" placement="top">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="个人详情"
+            placement="top"
+          >
             <el-button @click="information(scope.row._id)">个人信息</el-button>
           </el-tooltip>
         </el-row>
@@ -102,8 +128,12 @@
       <!--搜索框-->
       <el-table-column label>
         <template slot="header" slot-scope="scope">
-          <span v-if="false">{{scope}}</span>
-          <el-input v-model="search" @input="inputpsousuo" placeholder="输入关键字搜索" />
+          <span v-if="false">{{ scope }}</span>
+          <el-input
+            v-model="search"
+            @input="inputpsousuo"
+            placeholder="输入关键字搜索"
+          />
         </template>
       </el-table-column>
       <!--下拉-->
@@ -124,7 +154,7 @@
     <el-pagination
       background
       @size-change="handleSizeChange"
-      :page-sizes="[1, 2, 3, 4,5,6,7,8]"
+      :page-sizes="[1, 2, 3, 4, 5, 6, 7, 8]"
       layout="total,sizes,prev, pager, next,jumper"
       @current-change="currentChange"
       :page-size="pageSize"

@@ -239,7 +239,7 @@ body {
         .imgSvg {
           width: 8.2rem;
           height: 3.5rem;
-          transform: translateY(0.7rem);
+          transform: translateY(-0.7rem);
           border: 1px solid #ddd;
           background: white;
           padding: 0.255rem;
@@ -267,13 +267,13 @@ body {
         height: 3.3rem;
         font-size: 1.45rem;
         background: #409eff;
-        margin: 1.875rem 5rem 0rem 5rem;
+        margin: 1.075rem 5rem 0rem 5rem;
       }
     }
   }
 
   .bg {
-    background: url("http://127.0.0.1:8080/bg.jpg") no-repeat;
+    background: url("https://i.ibb.co/WprXSHJ/bg.jpg") no-repeat;
     background-size: 100% 100%;
     height: 100vh;
   }

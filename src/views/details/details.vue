@@ -4,55 +4,59 @@
       <span class="iconfont icon-fanhui1"></span>
       返回
     </span>
-    <el-divider class="headerStudent" content-position="left">学生基本信息</el-divider>
+    <el-divider class="headerStudent" content-position="left"
+      >学生基本信息</el-divider
+    >
     <header>
       <div class="avatar">
         <div class="demo-image__preview image">
           <el-image
             src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1045179699,1407021187&fm=26&gp=0.jpg"
-            :preview-src-list="['https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1045179699,1407021187&fm=26&gp=0.jpg']"
+            :preview-src-list="[
+              'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1045179699,1407021187&fm=26&gp=0.jpg',
+            ]"
           ></el-image>
         </div>
       </div>
       <div class="name">
         <p>
-          {{obj.name}}
-          <sub>{{obj.sex}} · {{obj.age}}</sub>
+          {{ obj.name }}
+          <sub>{{ obj.sex }} · {{ obj.age }}</sub>
         </p>
       </div>
       <div class="basic">
         <ul>
           <li>
             <span class="iconfont icon-zhuzhi_chengshi"></span>
-            <span>{{obj.homeAddress}}</span>
+            <span>{{ obj.homeAddress }}</span>
           </li>
           <li>
             <span class="iconfont icon-yunpingtaiicon-"></span>
-            <span>{{obj.email}}</span>
+            <span>{{ obj.email }}</span>
           </li>
           <li>
             <span class="iconfont icon-shouji"></span>
-            <span>{{obj.phone}}</span>
+            <span>{{ obj.phone }}</span>
           </li>
           <li>
             <span class="iconfont icon-credentials_icon"></span>
-            <span>{{obj.idCard}}</span>
+            <span>{{ obj.idCard }}</span>
           </li>
           <li>
             <span class="iconfont icon-yuanxibumen"></span>
-            <span>{{obj.system}}</span>
+            <span>{{ obj.system }}</span>
           </li>
           <li>
             <span class="iconfont icon-banji"></span>
-            <span>{{obj.class}}</span>
+            <span>{{ obj.class }}</span>
           </li>
           <li>
             <span class="iconfont icon-chushengriqi"></span>
-            <span>{{obj.birthday}}</span>
+            <span>{{ obj.birthday }}</span>
           </li>
           <li>
             <span class="iconfont icon-zhengzhimianmao"></span>
-            <span>{{obj.political}}</span>
+            <span>{{ obj.political }}</span>
           </li>
         </ul>
       </div>
@@ -60,49 +64,59 @@
     <section>
       <h3>个人专业成绩</h3>
       <p>Personal professional performance</p>
-      <div v-if="obj.professionScore != false">
+      <div v-if="obj.professionScore.length === 0">
         <h2>暂无成绩</h2>
       </div>
       <ul>
-        <li v-for="(item,index) in obj.professionScore" :key="index">
+        <li v-for="(item, index) in obj.professionScore" :key="index">
           <div class="professionScore">
-            <div class="profession" :style="{height:item[0].fullStack + '%'}">
-              <span>{{item[0].fullStack}}</span>
+            <div
+              class="profession"
+              :style="{ height: item[0].fullStack + '%' }"
+            >
+              <span>{{ item[0].fullStack }}</span>
             </div>
-            <div class="quality" :style="{height:item[0].quality+'%'}">
-              <span>{{item[0].quality}}</span>
+            <div class="quality" :style="{ height: item[0].quality + '%' }">
+              <span>{{ item[0].quality }}</span>
             </div>
           </div>
         </li>
         <div>
-          <p class="box pro"></p>专业成绩
-          <p class="box qua"></p>素质成绩
+          <p class="box pro"></p>
+          专业成绩
+          <p class="box qua"></p>
+          素质成绩
         </div>
       </ul>
     </section>
     <footer>
       <h3>个人平时表现明细</h3>
       <p>Personal performance details</p>
-      <div v-show="obj.usallyScore != false">
+      <div style="text-align:center" v-show="obj.usallyScore.length === 0">
         <h2>暂无成绩</h2>
       </div>
       <ul>
-        <li v-for="(item,indexn) in obj.usallyScore" :key="indexn">
+        <li v-for="(item, indexn) in obj.usallyScore" :key="indexn">
           <div class="conent">
             <p class="header">
               分值变化 ：
               <span v-if="item[0].type === 1">+</span>
               <span v-if="item[0].type === 0">-</span>
-              {{item[0].fraction}}
+              {{ item[0].fraction }}
             </p>
-            <p
-              class="dete"
-            >{{item[0].time | timeModify(item[0].time)}} {{item[0].time | tiemModitys(item[0].time)}}</p>
-            <p class="sec">增扣分原因 ： {{item[0].description}}</p>
+            <p class="dete">
+              {{ item[0].time | timeModify(item[0].time) }}
+              {{ item[0].time | tiemModitys(item[0].time) }}
+            </p>
+            <p class="sec">增扣分原因 ： {{ item[0].description }}</p>
 
             <div class="button">
               <el-button type="text" @click="trundrawer(indexn)">
-                <el-button type="primary" icon="el-icon-edit" circle></el-button>
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                ></el-button>
               </el-button>
               <el-drawer
                 class="drawer"
@@ -136,18 +150,23 @@
                       type="primary"
                       @click="sbmit"
                       :loading="loading"
-                    >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+                      >{{ loading ? "提交中 ..." : "确 定" }}</el-button
+                    >
                   </div>
                 </div>
               </el-drawer>
               <el-button type="text" @click="open(indexn)">
-                <el-button type="danger" icon="el-icon-delete" circle></el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                ></el-button>
               </el-button>
             </div>
           </div>
         </li>
       </ul>
-      <p>综合分数：{{Comprehensive}}</p>
+      <p>综合分数：{{ Comprehensive }}</p>
     </footer>
   </div>
 </template>
@@ -201,7 +220,7 @@ export default {
       const { data } = await this.$http.get(`/student/${this.id}`);
       this.obj = data.data;
       if (data.statusCode === 200) {
-        this.$message.success("欢迎查看" + this.obj.name + "的信息");
+        this.$message.success("欢迎查看 " + this.obj.name + " 的信息");
       }
     },
     deteusally(index) {
@@ -268,11 +287,11 @@ export default {
     this.findStudent();
   },
   filters: {
-    timeModify: function (val) {
+    timeModify: function(val) {
       var d = moment(new Date(parseInt(val))).format("YYYY-MM-DD");
       return d;
     },
-    tiemModitys: function (val) {
+    tiemModitys: function(val) {
       var d = moment(new Date(parseInt(val))).format("HH:mm:ss");
       return d;
     },
