@@ -4,7 +4,9 @@
       <span class="iconfont icon-fanhui1"></span>
       返回
     </span>
-    <h3 style="margin-bottom:1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
+    <h3 class="mt-4" style="margin-bottom:1.75rem">
+      {{ id ? "编辑" : "创建" }}学生
+    </h3>
     <el-form
       ref="ruleForm"
       :rules="rules"
@@ -167,8 +169,8 @@
       </el-form-item>
       <el-form-item>
         <el-button v-if="!id" type="primary" @click="submitForm('ruleForm')"
-          ><i class="el-icon-thumb"></i>&nbsp;立即创建</el-button
-        >
+          ><i class="el-icon-thumb"></i>&nbsp;立即创建
+        </el-button>
         <el-button v-else type="primary" @click="updateForm('ruleForm')"
           >立即修改</el-button
         >
@@ -251,32 +253,99 @@ export default {
       //规则验证
       rules: {
         name: [
-          { required: true, message: "请输入姓名", trigger: "blur" },
-          { min: 2, max: 6, message: "长度在 2 到 6 个字符", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入姓名",
+            trigger: "blur",
+          },
+          {
+            min: 2,
+            max: 6,
+            message: "长度在 2 到 6 个字符",
+            trigger: "blur",
+          },
         ],
-        birthday: [{ required: true, message: "请选择日期", trigger: "blur" }],
-        age: [{ required: true, message: "请选择年龄", trigger: "change" }],
+        birthday: [
+          {
+            required: true,
+            message: "请选择日期",
+            trigger: "blur",
+          },
+        ],
+        age: [
+          {
+            required: true,
+            message: "请选择年龄",
+            trigger: "change",
+          },
+        ],
         system: [
-          { required: true, message: "请选择所在系部", trigger: "change" },
+          {
+            required: true,
+            message: "请选择所在系部",
+            trigger: "change",
+          },
         ],
         class: [
-          { required: true, message: "请选择所在班级", trigger: "change" },
+          {
+            required: true,
+            message: "请选择所在班级",
+            trigger: "change",
+          },
         ],
-        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-        nation: [{ required: true, message: "请选择民族", trigger: "change" }],
+        sex: [
+          {
+            required: true,
+            message: "请选择性别",
+            trigger: "change",
+          },
+        ],
+        nation: [
+          {
+            required: true,
+            message: "请选择民族",
+            trigger: "change",
+          },
+        ],
         idCard: [
-          { required: true, message: "请输入身份证号码", trigger: "blur" },
-          { min: 18, max: 18, message: "身份证号码不正确", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入身份证号码",
+            trigger: "blur",
+          },
+          {
+            min: 18,
+            max: 18,
+            message: "身份证号码不正确",
+            trigger: "blur",
+          },
         ],
         phone: [
-          { required: true, message: "请输入手机号码", trigger: "blur" },
-          { min: 11, max: 11, message: "不是正确的手机号码", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入手机号码",
+            trigger: "blur",
+          },
+          {
+            min: 11,
+            max: 11,
+            message: "不是正确的手机号码",
+            trigger: "blur",
+          },
         ],
         political: [
-          { required: true, message: "请选择政治面貌", trigger: "change" },
+          {
+            required: true,
+            message: "请选择政治面貌",
+            trigger: "change",
+          },
         ],
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入邮箱地址",
+            trigger: "blur",
+          },
           {
             type: "email",
             message: "请输入正确的邮箱地址",
@@ -284,7 +353,11 @@ export default {
           },
         ],
         homeAddress: [
-          { required: true, message: "请选择家庭住址", trigger: "change" },
+          {
+            required: true,
+            message: "请选择家庭住址",
+            trigger: "change",
+          },
         ],
       },
       value: [],
@@ -375,7 +448,7 @@ export default {
             this.$message.success("创建成功");
             this.homeAddress = "";
             this.$refs[formName].resetFields();
-            this.$router.push("/table/Student");
+            this.$router.push("/");
           } catch (err) {
             console.log(err);
           }

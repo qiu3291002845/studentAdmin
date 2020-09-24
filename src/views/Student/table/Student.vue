@@ -140,6 +140,7 @@ export default {
       }
     },
     async findStudent() {
+      // 当页面 加载的时候 请求
       const { data } = await this.$http.get(
         `/student?count=${this.count}&pageSize=${this.pageSize}`
       );

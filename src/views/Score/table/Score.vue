@@ -165,28 +165,6 @@ export default {
       pageSize: 5,
       // inputpsousuo: "",
       tableData: [],
-      options: [
-        {
-          value: "选项1",
-          label: 1,
-        },
-        {
-          value: "选项2",
-          label: 2,
-        },
-        {
-          value: "选项3",
-          label: 3,
-        },
-        {
-          value: "选项4",
-          label: "4",
-        },
-        {
-          value: "选项5",
-          label: "5",
-        },
-      ],
     };
   },
   methods: {
@@ -215,8 +193,6 @@ export default {
         );
         this.tableData = data.data;
         this.totaldata = res.data.total;
-        console.log(this.tableData);
-        console.log(this.totaldata);
       }
     },
     async findTotal() {
