@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-button class="mb-4" type="primary" @click="createStudent"
+      >新建学生</el-button
+    >
     <el-table :data="tableData" border lazy style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -95,6 +98,9 @@ export default {
     };
   },
   methods: {
+    createStudent() {
+      this.$router.push("/edit");
+    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.findStudent();
@@ -137,9 +143,6 @@ export default {
       const { data } = await this.$http.get(
         `/student?count=${this.count}&pageSize=${this.pageSize}`
       );
-      console.log("====================================");
-      console.log(data);
-      console.log("====================================");
       this.tableData = data.data;
     },
     information(id) {

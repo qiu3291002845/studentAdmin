@@ -136,22 +136,10 @@
           />
         </template>
       </el-table-column>
-      <!--下拉-->
-      <!-- <el-table-column label>
-        <template slot="header">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </template>
-      </el-table-column>-->
     </el-table>
     <!--分页-->
     <el-pagination
+      class="mt-4"
       background
       @size-change="handleSizeChange"
       :page-sizes="[1, 2, 3, 4, 5, 6, 7, 8]"

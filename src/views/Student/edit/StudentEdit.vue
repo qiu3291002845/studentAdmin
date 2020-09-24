@@ -1,5 +1,9 @@
 <template>
   <div>
+    <span @click="returns" class="returns">
+      <span class="iconfont icon-fanhui1"></span>
+      返回
+    </span>
     <h3 style="margin-bottom:1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
     <el-form
       ref="ruleForm"
@@ -360,6 +364,9 @@ export default {
         console.log(err);
       }
     },
+    returns() {
+      this.$router.go(-1);
+    },
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -433,3 +440,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.returns {
+  margin-right: 30px;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
+}
+</style>
