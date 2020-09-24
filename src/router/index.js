@@ -20,8 +20,9 @@ const routes = [
     component: () => import("../views/Score/table/ScoreEdit.vue"),
   },
   {
-    path: "/scoreEdit",
+    path: "/scoreEdit/:id",
     name: "ScoreEdit",
+    props: true,
     component: () => import("../views/Score/edit/ScoreEdit.vue"),
   },
 ];
