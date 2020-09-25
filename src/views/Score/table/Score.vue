@@ -8,74 +8,14 @@
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
     >
-      <!--点击小箭头内部东西-->
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="right" inline class="demo-table-expand">
-            <el-form-item label="姓名">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="性别">
-              <span>{{ props.row.sex }}</span>
-            </el-form-item>
-            <el-form-item label="年龄">
-              <span>{{ props.row.age }}</span>
-            </el-form-item>
-            <el-form-item label="系别">
-              <span>{{ props.row.system }}</span>
-            </el-form-item>
-            <el-form-item label="班级">
-              <span>{{ props.row.class }}</span>
-            </el-form-item>
-            <el-form-item label="身份证号">
-              <span>{{ props.row.idCard }}</span>
-            </el-form-item>
-
-            <el-form-item>
-              <el-form-item v-if="props.row.professionScore == 0">
-                <p class="asss">{{ "专业成绩" + " " + "您现在还没有成绩" }}</p>
-              </el-form-item>
-              <el-form-item
-                v-else
-                v-for="(item, index) in props.row.professionScore"
-                :key="index"
-                class="paaa"
-              >
-                <p class="asss">
-                  {{
-                    `平时成绩${index + 1}学期` + " " + item[0].fullStack + "分"
-                  }}
-                </p>
-              </el-form-item>
-            </el-form-item>
-
-            <el-form-item>
-              <el-form-item v-if="props.row.professionScore == 0">
-                <p class="asss">{{ "平时成绩" + " " + "您现在还没有成绩" }}</p>
-              </el-form-item>
-              <el-form-item
-                v-else
-                v-for="(items, index) in props.row.professionScore"
-                :key="index"
-                class="pass"
-              >
-                <p class="asss">
-                  {{
-                    `专业成绩${index + 1}学期` + " " + items[0].quality + "分"
-                  }}
-                </p>
-              </el-form-item>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
+      <Detail></Detail>
       <!--点击小箭头内部东西 结束-->
-      <el-table-column type="index" label="编号" width="60"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="80"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="60"></el-table-column>
-      <el-table-column prop="system" label="系别" width="100"></el-table-column>
-      <el-table-column prop="class" label="班级"></el-table-column>
-      <el-table-column label="本学期平时成绩评价">
+        <el-table-column type="index" label="编号" width="60"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="80"></el-table-column>
+        <el-table-column prop="sex" label="性别" width="60"></el-table-column>
+        <el-table-column prop="system" label="系别" width="100"></el-table-column>
+        <el-table-column prop="class" label="班级"></el-table-column>
+        <el-table-column label="本学期平时成绩评价">
         <el-row slot-scope="scope">
           <!-- <span>{{scope}}</span> -->
 
@@ -142,7 +82,7 @@
       class="mt-4"
       background
       @size-change="handleSizeChange"
-      :page-sizes="[1, 2, 3, 4, 5, 6, 7, 8]"
+      :page-sizes="[1, 2, 3, 4, 5, 6, 7, 8]" 
       layout="total,sizes,prev, pager, next,jumper"
       @current-change="currentChange"
       :page-size="pageSize"
@@ -152,20 +92,22 @@
   </div>
 </template>
 <script>
+import Detail from './component/detail'
 export default {
   data() {
     return {
+      propp:["index","name","sex","system","class"],
       loading: true,
-      input: "",
-      search: "",
+      input: "", //input双向数据绑定
+      search: "", //搜索
       // value: "",
-      pagedata: 30,
-      count: 1,
-      totaldata: 10,
-      pageSize: 5,
+      pagedata: 30,//页
+      count: 1, //计数 页码
+      totaldata: 10, //总数
+      pageSize: 5, //默认页面信息数据为5个一页
       // inputpsousuo: "",
-      tableData: [],
-      options: [
+      tableData: [], //表数据
+      options: [ //专业成绩
         {
           value: "选项1",
           label: 1,
@@ -189,29 +131,34 @@ export default {
       ],
     };
   },
+  components:{
+    Detail
+  },
   methods: {
-    handleSizeChange(e) {
+    handleSizeChange(e) { //分页事件
       this.pageSize = e;
       this.findStudent();
     },
-    edit(id) {
+    edit(id) { //向学生成绩编辑页面传递id
       this.$router.push(`/ScoreEdit/${id}`);
     },
-    information(id) {
+    information(id) { //向个人信息页面传递id
       this.$router.push(`/details/${id}`);
     },
-    async inputpsousuo() {
-      if (this.search === "") {
-        this.findStudent();
-        this.findTotal();
-        this.count = 1;
+    async inputpsousuo() { //输入关键字搜索  @input 事件
+      if (this.search === "") { //if判断input输入的内容是否绝对等于空 
+        this.findStudent(); //如果等于空执行查找学生的方法
+        this.findTotal(); //把请求的数据赋值给this.totaldata 把请求数
+        this.count = 1; //页码等于1
       } else {
-        this.count = 1;
+        this.count = 1; //否则用户输入的情况下页码跳转到第一页
         const { data } = await this.$http.get(
           `/student/search?keyword=${this.search}&count=${this.count}&pageSize=${this.pageSize}`
+          // 重新获取数据 判断keyword等于this.search并且等于后面的一些数据
         );
         const res = await this.$http.get(
           `/student/search?keyword=${this.search}`
+          //重新获取数据
         );
         this.tableData = data.data;
         this.totaldata = res.data.total;
@@ -219,22 +166,27 @@ export default {
         console.log(this.totaldata);
       }
     },
-    async findTotal() {
+    async findTotal() { //异步函数方法
       const { data } = await this.$http.get(`/student`);
+      //请求数据 data对象解构
       this.totaldata = data.total;
+      //把请求数据 解构data.total 赋值给 this.totaldata
     },
-    async findStudent() {
+    async findStudent() { //查找学生的方法 异步函数
+      //异步函数实现异步等待 获取
       const { data } = await this.$http.get(
+        //请求数据
         `/student?count=${this.count}&pageSize=${this.pageSize}`
       );
       this.tableData = data.data;
+      //获取到的数据赋值到数组
     },
-    async currentChange(e) {
+    async currentChange(e) { //当表格的当前行发生变化的时候触发这个方法
       this.count = e;
-      if (this.search === "") {
+      if (this.search === "") { //判断search是否为空
         const { data } = await this.$http.get(
           `/student?count=${e}&pageSize=${this.pageSize}`
-        );
+        ); //如果是空则重新请求数据并且解构
         this.tableData = data.data;
       } else {
         const { data } = await this.$http.get(
@@ -244,7 +196,7 @@ export default {
       }
     },
   },
-  created() {
+  created() { //在实例创建完立即调用
     this.findStudent();
     this.findTotal();
   },
