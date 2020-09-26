@@ -7,6 +7,7 @@
     <el-divider class="headerStudent" content-position="left"
       >学生基本信息</el-divider
     >
+
     <header>
       <div class="avatar">
         <div class="demo-image__preview image">
@@ -63,36 +64,17 @@
     </header>
     <section>
       <h3>个人专业成绩</h3>
+
       <p>Personal professional performance</p>
-      <div v-if="obj.professionScore.length === 0">
+      <div v-if="!this.isShow">
         <h2>暂无成绩</h2>
       </div>
-      <ul>
-        <li v-for="(item, index) in obj.professionScore" :key="index">
-          <div class="professionScore">
-            <div
-              class="profession"
-              :style="{ height: item[0].fullStack + '%' }"
-            >
-              <span>{{ item[0].fullStack }}</span>
-            </div>
-            <div class="quality" :style="{ height: item[0].quality + '%' }">
-              <span>{{ item[0].quality }}</span>
-            </div>
-          </div>
-        </li>
-        <div>
-          <p class="box pro"></p>
-          专业成绩
-          <p class="box qua"></p>
-          素质成绩
-        </div>
-      </ul>
+      <v-chart v-else :options="polar" style="margin: 0 auto" />
     </section>
     <footer>
       <h3>个人平时表现明细</h3>
       <p>Personal performance details</p>
-      <div style="text-align:center" v-show="obj.usallyScore.length === 0">
+      <div style="text-align: center" v-show="obj.usallyScore.length === 0">
         <h2>暂无成绩</h2>
       </div>
       <ul>
@@ -116,45 +98,45 @@
                   type="primary"
                   icon="el-icon-edit"
                   circle
+                  @click="dialogFormVisible = true"
                 ></el-button>
               </el-button>
-              <el-drawer
-                class="drawer"
-                :before-close="handleClose"
-                :visible.sync="dialog"
-                direction="rtl"
-                ref="drawer"
-                :modal="true"
-              >
-                <div class="demo-drawer__content">
-                  <div class="form">
-                    <h1>修改平时成绩</h1>
-                    <p>
-                      分值变化：
-                      <span v-if="drawerobj.type === 1">+</span>
-                      <span v-if="drawerobj.type === 0">-</span>
-                      <input
-                        type="text"
-                        onkeyup="value=value.replace(/[^\d]/g,'')"
-                        v-model="drawerobj.fraction"
-                      />
-                    </p>
-                    <p>
-                      增扣分原因：
-                      <input type="text" v-model="drawerobj.description" />
-                    </p>
-                  </div>
-                  <div class="demo-drawer__footer">
-                    <el-button @click="cancelForm">取 消</el-button>
-                    <el-button
-                      type="primary"
-                      @click="sbmit"
-                      :loading="loading"
-                      >{{ loading ? "提交中 ..." : "确 定" }}</el-button
-                    >
+              <!-- Form -->
+              <el-dialog :visible.sync="dialogFormVisible">
+                <div slot="footer" class="dialog-footer">
+                  <div class="demo-drawer__content">
+                    <div class="form">
+                      <span class="posibinazhi">分值变化</span>
+                      <p>
+                        分值变化：
+                        <span v-if="drawerobj.type === 1">+</span>
+                        <span v-if="drawerobj.type === 0">-</span>
+                        <input
+                          type="text"
+                          onkeyup="value=value.replace(/[^\d]/g,'')"
+                          v-model="drawerobj.fraction"
+                          class="inputjia"
+                        />
+                      </p>
+                      <p>
+                        增扣分原因：
+                        <input type="text" v-model="drawerobj.description" />
+                      </p>
+                    </div>
+                    <div class="demo-drawer__footer">
+                      <el-button @click="dialogFormVisible = false"
+                        >取 消</el-button
+                      >
+                      <el-button
+                        type="primary"
+                        @click="sbmit"
+                        :loading="loading"
+                        >{{ loading ? "提交中 ..." : "确 定" }}</el-button
+                      >
+                    </div>
                   </div>
                 </div>
-              </el-drawer>
+              </el-dialog>
               <el-button type="text" @click="open(indexn)">
                 <el-button
                   type="danger"
@@ -172,15 +154,26 @@
 </template>
 <script>
 import moment from "moment";
+import ECharts from "vue-echarts";
+import "echarts/lib/chart/line";
+import "echarts/lib/component/polar";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/legend";
 import "./iconfont.css";
 export default {
   props: ["id"],
+  components: { "v-chart": ECharts },
+
   data() {
     return {
+      fullStack: [],
+      quality: [],
+      polar: {},
       dialog: false,
       loading: false,
       index: 0,
       drawerobj: {},
+      isShow: true,
       obj: {
         name: "牛天罡",
         sex: "女",
@@ -197,6 +190,19 @@ export default {
         usallyScore: [],
         professionScore: [],
       },
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      form: {
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "",
+      },
+      formLabelWidth: "120px",
     };
   },
   computed: {
@@ -219,6 +225,108 @@ export default {
     async findStudent() {
       const { data } = await this.$http.get(`/student/${this.id}`);
       this.obj = data.data;
+      let fullStackNum = 0;
+      let qualityNum = 0;
+      this.obj.professionScore.map((item) => {
+        //包含一个原理   类数组和纯数组
+        this.fullStack.push(parseInt(item[0].fullStack));
+        this.quality.push(parseInt(item[0].quality));
+        item[0].fullStack == 0 && fullStackNum++;
+        item[0].quality == 0 && qualityNum++;
+      });
+      if (fullStackNum == 4 && qualityNum == 4) {
+        this.isShow = false;
+      }
+
+      this.polar = {
+        tooltip: {
+          trigger: "none",
+          axisPointer: {
+            type: "cross",
+          },
+        },
+        legend: {
+          data: ["2020 专业成绩", "2020 平时成绩"],
+        },
+        grid: {
+          top: 70,
+          bottom: 50,
+        },
+        xAxis: [
+          {
+            type: "category",
+            axisTick: {
+              alignWithLabel: true,
+            },
+            axisLine: {
+              onZero: false,
+              lineStyle: {
+                color: "red",
+              },
+            },
+            axisPointer: {
+              label: {
+                formatter: function (params) {
+                  return (
+                    "分数  " +
+                    params.value +
+                    (params.seriesData.length
+                      ? "：" + params.seriesData[0].data
+                      : "")
+                  );
+                },
+              },
+            },
+            data: ["第一学期", "第二学期", "第三学期", "第四学期"],
+          },
+          {
+            type: "category",
+            axisTick: {
+              alignWithLabel: true,
+            },
+            axisLine: {
+              onZero: false,
+              lineStyle: {
+                color: "blue",
+              },
+            },
+            axisPointer: {
+              label: {
+                formatter: function (params) {
+                  return (
+                    "分数  " +
+                    params.value +
+                    (params.seriesData.length
+                      ? "：" + params.seriesData[0].data
+                      : "")
+                  );
+                },
+              },
+            },
+            data: ["第一学期", "第二学期", "第三学期", "第四学期"],
+          },
+        ],
+        yAxis: [
+          {
+            type: "value",
+          },
+        ],
+        series: [
+          {
+            name: "2020 专业成绩",
+            type: "line",
+            xAxisIndex: 1,
+            smooth: true,
+            data: this.fullStack,
+          },
+          {
+            name: "2020 平时成绩",
+            type: "line",
+            smooth: true,
+            data: this.quality,
+          },
+        ],
+      };
       if (data.statusCode === 200) {
         this.$message.success("欢迎查看 " + this.obj.name + " 的信息");
       }
@@ -287,11 +395,11 @@ export default {
     this.findStudent();
   },
   filters: {
-    timeModify: function(val) {
+    timeModify: function (val) {
       var d = moment(new Date(parseInt(val))).format("YYYY-MM-DD");
       return d;
     },
-    tiemModitys: function(val) {
+    tiemModitys: function (val) {
       var d = moment(new Date(parseInt(val))).format("HH:mm:ss");
       return d;
     },
@@ -299,6 +407,10 @@ export default {
 };
 </script>
 <style lang="scss" scope>
+.echarts {
+  width: 800px;
+  height: 400px;
+}
 ul {
   list-style: none;
 }
@@ -351,7 +463,7 @@ ul {
         margin: 0 auto;
         li {
           display: inline-block;
-          width: 260px;
+          width: 250px;
           font-size: 18px;
           margin: 10px 0;
           text-align: left;
@@ -374,6 +486,7 @@ ul {
         width: 150px;
         height: 150px;
         display: inline-block;
+
         // background: red;
         margin: 50px 50px;
         text-align: right;
@@ -427,6 +540,11 @@ ul {
         height: 20px;
       }
     }
+  }
+  .posibinazhi {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
   }
   footer {
     background: rgb(255, 255, 255);
