@@ -115,12 +115,17 @@
                           type="text"
                           onkeyup="value=value.replace(/[^\d]/g,'')"
                           v-model="drawerobj.fraction"
+                          @keydown.enter="sbmit"
                           class="inputjia"
                         />
                       </p>
                       <p>
                         增扣分原因：
-                        <input type="text" v-model="drawerobj.description" />
+                        <input
+                          type="text"
+                          @keydown.enter="sbmit"
+                          v-model="drawerobj.description"
+                        />
                       </p>
                     </div>
                     <div class="demo-drawer__footer">
@@ -163,7 +168,6 @@ import "./iconfont.css";
 export default {
   props: ["id"],
   components: { "v-chart": ECharts },
-
   data() {
     return {
       fullStack: [],
@@ -266,7 +270,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -292,7 +296,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -356,16 +360,14 @@ export default {
       this.dialog = false;
       clearTimeout(this.timer);
     },
-    sbmit() {
+    async sbmit() {
       this.loading = true;
-      setTimeout(() => {
-        this.dialog = false;
-        this.loading = false;
-        clearTimeout(this.timer);
-      }, 1000);
       this.obj.usallyScore.splice(this.index, 1, [this.drawerobj]);
-      this.$http.put(`student/${this.id}`, this.obj);
+      await this.$http.put(`student/${this.id}`, this.obj);
+      this.dialog = false;
+      this.loading = false;
       this.$message.success("更改成功");
+      this.dialogFormVisible = false;
     },
     open(index) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -395,11 +397,11 @@ export default {
     this.findStudent();
   },
   filters: {
-    timeModify: function (val) {
+    timeModify: function(val) {
       var d = moment(new Date(parseInt(val))).format("YYYY-MM-DD");
       return d;
     },
-    tiemModitys: function (val) {
+    tiemModitys: function(val) {
       var d = moment(new Date(parseInt(val))).format("HH:mm:ss");
       return d;
     },
