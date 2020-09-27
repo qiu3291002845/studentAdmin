@@ -50,7 +50,7 @@
             value-format="timestamp"
             placeholder="选择出生年月日"
             v-model="ruleForm.birthday"
-            style="width: 100%;"
+            style="width: 100%"
           ></el-date-picker>
         </el-col>
         <el-col class="line" :span="2"></el-col>
@@ -178,7 +178,7 @@
       </el-form-item>
     </el-form>
     <el-button
-      style="background: none;border: none"
+      style="background: none; border: none"
       plain
       @click="open4"
     ></el-button>
@@ -190,7 +190,7 @@ import shuju from "./jtzz.js";
 export default {
   name: "StudentEdit",
   watch: {
-    $route: function(e) {
+    $route: function (e) {
       if (e.path == "/edit") {
         this.ruleForm = {};
         this.$refs["ruleForm"].resetFields();
@@ -430,7 +430,6 @@ export default {
         console.log(err);
       }
     } else {
-      this.ruleForm = {};
       this.$notify({
         title: "欢迎来到创建用户的界面",
         message: "在这里你可以尽情的书写你的信息",

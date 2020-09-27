@@ -5,7 +5,6 @@ import router from "./router";
 import "./plugins/element.js";
 // 导入axios
 import axios from "axios";
-
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
 
