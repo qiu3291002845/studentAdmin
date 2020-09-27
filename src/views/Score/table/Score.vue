@@ -1,27 +1,29 @@
 <template>
   <div>
-    <el-table
+    <el-table 
       :data="tableData"
       border
       style="width: 100%"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      v-loading="loading"
     >
-      <Detail></Detail>
-      <!--点击小箭头内部东西 结束-->
-        <el-table-column type="index" label="编号" width="60"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="80"></el-table-column>
+        <!--头部渲染标题部分-->
+        <el-table-column style="text-align: center" type="index" label="编号" width="60"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="90"></el-table-column>
         <el-table-column prop="sex" label="性别" width="60"></el-table-column>
         <el-table-column prop="system" label="系别" width="100"></el-table-column>
-        <el-table-column prop="class" label="班级"></el-table-column>
-        <el-table-column label="本学期平时成绩评价">
-        <el-row slot-scope="scope">
-          <!-- <span>{{scope}}</span> -->
+        <el-table-column prop="class" label="班级" width="100"></el-table-column>
+        <el-table-column label="本学期平时成绩评价 " width="200">
+        <!-----头部渲染标题部分结束----->
 
+        <!----判断成绩是否等于0 如果等于就输出暂时无成绩---->
+        <el-row slot-scope="scope">
           <div v-if="scope.row.usallyScore.length == 0">
             {{ "暂时无成绩!!!" }}
           </div>
+          <!-----否则则输出评价-------->
           <el-tooltip
             class="item"
             effect="light"
@@ -29,6 +31,7 @@
             placement="top"
             v-else
           >
+
             <div class="shenglue">
               {{ scope.row.usallyScore[0][0].description }}
             </div>
@@ -45,7 +48,7 @@
           </div>
         </el-row>
       </el-table-column>
-      <el-table-column prop="name" label="编辑/个人信息" width="230">
+      <el-table-column prop="name" label="编辑/个人信息" width="200">
         <el-row slot-scope="scope">
           <el-tooltip
             class="item"
@@ -66,13 +69,14 @@
         </el-row>
       </el-table-column>
       <!--搜索框-->
-      <el-table-column label>
+      <el-table-column label style="width: 100px">
         <template slot="header" slot-scope="scope">
           <span v-if="false">{{ scope }}</span>
-          <el-input
+          <el-input style="font-size: 6px;"
             v-model="search"
             @input="inputpsousuo"
             placeholder="输入关键字搜索"
+            prefix-icon="el-icon-search"
           />
         </template>
       </el-table-column>
@@ -92,11 +96,9 @@
   </div>
 </template>
 <script>
-import Detail from './component/detail'
 export default {
   data() {
     return {
-      propp:["index","name","sex","system","class"],
       loading: true,
       input: "", //input双向数据绑定
       search: "", //搜索
@@ -107,9 +109,9 @@ export default {
       pageSize: 5, //默认页面信息数据为5个一页
       // inputpsousuo: "",
       tableData: [], //表数据
-      options: [ //专业成绩
+      options: [ //分页
         {
-          value: "选项1",
+          value: "分页1",
           label: 1,
         },
         {
@@ -130,9 +132,6 @@ export default {
         },
       ],
     };
-  },
-  components:{
-    Detail
   },
   methods: {
     handleSizeChange(e) { //分页事件
@@ -196,9 +195,13 @@ export default {
       }
     },
   },
-  created() { //在实例创建完立即调用
-    this.findStudent();
-    this.findTotal();
+  created() { //在实例创建完立即调用  
+    setTimeout(()=>{
+     this.loading=false;
+      this.findStudent();
+      this.findTotal();
+    },1200);
+    
   },
 };
 </script>
