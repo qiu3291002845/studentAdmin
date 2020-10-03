@@ -273,7 +273,7 @@ body {
   }
 
   .bg {
-    background: url("https://i.ibb.co/WprXSHJ/bg.jpg") no-repeat;
+    background: url("https://czh1010.oss-cn-beijing.aliyuncs.com/images/20200928/bg.jpg") no-repeat;
     background-size: 100% 100%;
     height: 100vh;
   }
