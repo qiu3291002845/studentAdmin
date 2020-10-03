@@ -1,2 +1,2 @@
-# studentAdmin
+# studentAdmins
 studentAdmin
