@@ -2,16 +2,17 @@
   <el-container>
     <el-aside
       width="200px"
-      style="background-color: rgb(238, 241, 246); height: 100vh"
+      style="background-color: rgb(238, 241, 246);height:100vh"
     >
       <el-menu router>
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-message"></i>学生管理
+            <i class="el-icon-message"></i>管理系统
           </template>
           <el-menu-item-group>
-            <template slot="title">学生系统</template>
+            <template slot="title">管理系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
+            <el-menu-item index='/UserList'>用户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -26,10 +27,10 @@
       </el-menu>
     </el-aside>
 
-    <el-container style="height: 100vh">
-      <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
+    <el-container style="height:100vh;">
+      <el-header style="text-align: right; font-size: 12px;height:6.5vh">
         <el-dropdown trigger="click">
-          <el-button type="text" style="color: white">
+          <el-button type="text" style="color:white">
             管理员<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -94,11 +95,6 @@ export default {
       storage.clear();
       this.$router.push("/login");
     },
-  },
-  created() {
-    if (this.$store.state.id.length === 0) {
-      this.$router.push("/Login");
-    }
   },
 };
 </script>
