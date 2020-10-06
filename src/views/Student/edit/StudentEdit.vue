@@ -375,7 +375,7 @@ export default {
             this.$message.success("创建成功");
             this.homeAddress = "";
             this.$refs[formName].resetFields();
-            this.$router.push("/table/Student");
+            this.$router.push("/student");
           } catch (err) {
             console.log(err);
           }

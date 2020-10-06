@@ -15,6 +15,11 @@ const routes = [
         component: () => import("../views/Student/table/Student.vue"),
       },
       {
+        path: "/student",
+        name: "Student",
+        component: () => import("../views/Student/table/Student.vue"),
+      },
+      {
         path: "/edit",
         name: "StudentEdit",
         props: true,
@@ -36,6 +41,17 @@ const routes = [
         props: true,
         name: "ScoreEdit",
         component: () => import("../views/Score/edit/ScoreEdit.vue"),
+      },
+      {
+        path: "/roleedit/:id",
+        props: true,
+        name: "RoleEdit",
+        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+      },
+      {
+        path: "/roleedit/",
+        name: "RoleEdit",
+        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
       },
       {
         path: "/details/:id",
