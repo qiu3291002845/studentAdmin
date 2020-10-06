@@ -24,7 +24,7 @@
           :src="src"
           width="40px"
           height="40px"
-          style="border-radius:100%;"
+          style="border-radius: 100%"
           :preview-src-list="[src]"
         />
       </template>
@@ -62,7 +62,6 @@
         <el-button
           size="mini"
           type="primary"
-          :disabled="scope.row.purview[0] == 0"
           class="Authoritybotton"
           @click="information(scope.row._id)"
           >新建</el-button
@@ -72,7 +71,6 @@
           type="info"
           class="Authoritybotton"
           @click="edit(scope.row._id)"
-          :disabled="scope.row.purview[1] == 0"
           >编辑</el-button
         >
         <el-button
@@ -80,7 +78,6 @@
           type="danger"
           class="Authoritybotton"
           @click="dele(scope.row._id)"
-          :disabled="scope.row.purview[2] == 0"
           >删除
         </el-button>
       </template>
@@ -134,13 +131,17 @@ export default {
     },
     //跳转新建页面
     information(id) {
-      //将获取到的edit数据id push到路由中
-      this.loading = true;
-      //当点击编辑的时候出现加载
-      //等1秒后跳转
-      setTimeout(() => {
-        this.$router.push(`/RoleEdit/${id}`);
-      }, 1000);
+      if (this.$store.state.userInfo.role.purview[0] === 0) {
+        this.$message.info("你没有");
+      } else {
+        //将获取到的edit数据id push到路由中
+        this.loading = true;
+        //当点击编辑的时候出现加载
+        //等1秒后跳转
+        setTimeout(() => {
+          this.$router.push(`/RoleEdit/${id}`);
+        }, 1000);
+      }
     },
     // 跳转编辑页面
     edit(id) {
