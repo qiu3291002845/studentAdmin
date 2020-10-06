@@ -260,10 +260,21 @@ export default {
     },
     async deposit() {
       if (this.userFrom.username.search("@") > 0) {
-        const { data } = await this.$http.get(
+        /// 当使用邮箱登陆的时候执行
+        const uid = await this.$http.get(
           `/user/email/${this.userFrom.username}`
         );
-        this.$store.commit("deposit", data.user._id);
+        let id = uid.data.user._id;
+        const { data } = await this.$http.get(`/user/${id}`);
+        this.$store.state.userInfo = data.data;
+      } else {
+        /// 当使用用户名登录的时候执行
+        const uid = await this.$http.get(
+          `/user/username/${this.userFrom.username}`
+        );
+        let id = uid.data.user._id;
+        const { data } = await this.$http.get(`/user/${id}`);
+        this.$store.state.userInfo = data.data;
       }
     },
     async validateCode(rule, value, callback) {
@@ -281,6 +292,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          this.userFrom.username = this.userFrom.username.toLocaleLowerCase();
           const { data } = await this.$http.post("/login", this.userFrom);
           this.deposit();
           if (data.statusCode === 500) {

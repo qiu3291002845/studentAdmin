@@ -96,8 +96,19 @@ export default {
     },
   },
   created() {
-    if (this.$store.state.id.length === 0) {
-      this.$router.push("/Login");
+    if (this.$store.state.userInfo.role.purview.length === 0) {
+      this.$router.push("/login");
+      this.$notify({
+        title: "警告",
+        message: "你没有该权限请重新登录",
+        type: "warning",
+      });
+    } else {
+      this.$notify({
+        title: "登录成功",
+        message: "欢迎访问1903班的学生管理系统",
+        type: "success",
+      });
     }
   },
 };

@@ -4,7 +4,7 @@
       <span class="iconfont icon-fanhui1"></span>
       返回
     </span>
-    <h3 style="margin-bottom:1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
+    <h3 style="margin-bottom: 1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
     <el-form
       ref="ruleForm"
       :rules="rules"

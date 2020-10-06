@@ -37,7 +37,7 @@
             v-model="studentInfo.age"
             placeholder="请输入你的年龄"
             :disabled="!id"
-            style="width:20%"
+            style="width: 20%"
           >
             <el-option
               :label="age"
@@ -56,7 +56,7 @@
                 placeholder="选择日期"
                 v-model="studentInfo.birthday"
                 value-format="timestamp"
-                style="width:50%;"
+                style="width: 50%"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -83,7 +83,7 @@
             v-model="studentInfo.nation"
             placeholder="请选择民族"
             :disabled="!id"
-            style="width:20%"
+            style="width: 20%"
           >
             <el-option
               :label="nation"
@@ -111,7 +111,7 @@
             v-model="studentInfo.political"
             placeholder="请选择您的关系"
             class="Department"
-            style="width:20%"
+            style="width: 20%"
             :disabled="!id"
           >
             <el-option
@@ -129,7 +129,7 @@
             v-model="studentInfo.system"
             placeholder="请选择系部"
             class="Department"
-            style="width:20%"
+            style="width: 20%"
             :disabled="!id"
           >
             <el-option
@@ -144,7 +144,7 @@
             v-model="studentInfo.class"
             placeholder="请选择班级"
             class="Departmentone"
-            style="width:20%"
+            style="width: 20%"
             :disabled="!id"
           >
             <el-option
@@ -157,7 +157,7 @@
           </el-select>
         </el-form-item>
         <!-- 平时成绩加减分部分 -->
-        <div class="demo-input-suffix  usuallybox">
+        <div class="demo-input-suffix usuallybox">
           <!-- 平时成绩加减分情况 -->
           <h1 class="h1">平时成绩加减分情况</h1>
           <div class="page">
@@ -182,7 +182,7 @@
             <el-form-item label="加减分详情" class="fractionFour">
               <el-input
                 type="textarea"
-                style="width:65%"
+                style="width: 65%"
                 v-model="usally[0].description"
                 placeholder="请输入缘由"
               ></el-input>
@@ -197,15 +197,15 @@
           </div>
         </div>
         <!-- 专业部分 -->
-        <div class="demo-input-suffix  professionbox">
+        <div class="demo-input-suffix professionbox">
           <h1 class="h1">专业成绩分数详情</h1>
-          <div class=" page  ">
+          <div class="page">
             <div class="one">
               <el-form-item label="学期成绩">
                 <!-- 班级 -->
                 <el-select
                   placeholder="请选择第几学期"
-                  style="width:20%"
+                  style="width: 20%"
                   :disabled="!id"
                   v-model="same"
                 >
