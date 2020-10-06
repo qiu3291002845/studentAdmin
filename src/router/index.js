@@ -38,6 +38,17 @@ const routes = [
         component: () => import("../views/Score/edit/ScoreEdit.vue"),
       },
       {
+        path: "/roleedit/:id",
+        props: true,
+        name: "RoleEdit",
+        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+      },
+      {
+        path: "/roleedit/",
+        name: "RoleEdit",
+        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+      },
+      {
         path: "/details/:id",
         name: "details",
         props: true,
