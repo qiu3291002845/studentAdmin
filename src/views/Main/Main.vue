@@ -23,6 +23,15 @@
             <el-menu-item index="/score">评分系统</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-menu"></i>角色管理
+          </template>
+          <el-menu-item-group>
+            <template slot="title">角色系统</template>
+            <el-menu-item index="/roleedit/">角色编辑</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
       </el-menu>
     </el-aside>
 
