@@ -77,7 +77,7 @@
         <template slot="header" slot-scope="scope">
           <span v-if="false">{{ scope }}</span>
           <el-input
-            style="font-size: 6px;"
+            style="font-size: 6px"
             v-model="search"
             @input="inputpsousuo"
             placeholder="输入关键字搜索"
@@ -146,8 +146,13 @@ export default {
       this.findStudent();
     },
     edit(id) {
+      console.log(this.$store.state.userInfo.purview);
+      if (this.$store.state.userInfo.role.purview[1] === 0) {
+        this.$message.info("你没有访问该任务的权限");
+      } else {
+        this.$router.push(`/ScoreEdit/${id}`);
+      }
       //向学生成绩编辑页面传递id
-      this.$router.push(`/ScoreEdit/${id}`);
     },
     information(id) {
       //向个人信息页面传递id
@@ -210,7 +215,6 @@ export default {
     },
   },
   created() {
-    //在实例创建完立即调用
     this.findStudent();
     this.findTotal();
   },

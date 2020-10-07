@@ -4,7 +4,7 @@
       <span class="iconfont icon-fanhui1"></span>
       返回
     </span>
-    <h3 style="margin-bottom:1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
+    <h3 style="margin-bottom: 1.75rem">{{ id ? "编辑" : "创建" }}学生</h3>
     <el-form
       ref="ruleForm"
       :rules="rules"
@@ -375,7 +375,7 @@ export default {
             this.$message.success("创建成功");
             this.homeAddress = "";
             this.$refs[formName].resetFields();
-            this.$router.push("/table/Student");
+            this.$router.push("/student");
           } catch (err) {
             console.log(err);
           }

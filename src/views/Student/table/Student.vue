@@ -93,8 +93,11 @@ export default {
   methods: {
     // 请求数据借口函数
     createStudent() {
-      //将请求到的edit路径放到路由中
-      this.$router.push("/edit");
+      if (this.$store.state.userInfo.role.purview[0] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
+        this.$router.push("/edit");
+      }
     },
     //分页页数改变函数
     handleSizeChange(val) {
@@ -161,13 +164,11 @@ export default {
       this.tableData = data.data;
     },
     information(id) {
-      //将获取到的edit数据id push到路由中
-      this.loading = true;
-      //当点击编辑的时候出现加载
-      //等1秒后跳转
-      setTimeout(() => {
+      if (this.$store.state.userInfo.role.purview[1] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
         this.$router.push(`/edit/${id}`);
-      }, 1000);
+      }
     },
     info(id) {
       //将获取的details 数据id push到路由中
@@ -175,28 +176,29 @@ export default {
     },
     //删除此人信息
     dele(id) {
-      // 弹框 是否删除 一个确定 一个取消 类型：警告
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        //当删除成功的时候 异步等待删除请求过来这条数据的id
-        .then(async () => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          await this.$http.delete(`/student/${id}`);
-          this.findStudent();
+      if (this.$store.state.userInfo.role.purview[2] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
+        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         })
-        //当取消的时候  提示已经取消删除
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
+          .then(async () => {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            await this.$http.delete(`/student/${id}`);
+            this.findStudent();
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
           });
-        });
+      }
     },
   },
   created() {

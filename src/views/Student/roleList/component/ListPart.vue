@@ -212,16 +212,10 @@ export default {
   width: 40px;
   height: 40px;
 }
-.el-table_1_column_1 {
-}
-.table-rowIndex .el-table_1_column_2 {
-}
 .el-image__inner,
 .el-image__placeholder,
 .el-image__error {
   width: 50%;
   height: 50%;
-}
-.table-rowIndex .el-table_1_row_2 {
 }
 </style>

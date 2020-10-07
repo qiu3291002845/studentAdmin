@@ -134,6 +134,46 @@ export default {
       }
     },
     // 检验验证码
+    handleClose(done) {
+      this.$confirm("你还未输入验证码，确定关闭吗？？")
+        .then(() => {
+          done();
+        })
+        .catch(() => {});
+    },
+    chengeHandleClose(done) {
+      this.$confirm("你还未输入验证码，确定关闭吗？？")
+        .then(() => {
+          done();
+        })
+        .catch(() => {});
+    },
+    RetHandleClose(done) {
+      this.$confirm("你还未输入验证码，确定关闭吗？？")
+        .then(() => {
+          done();
+        })
+        .catch(() => {});
+    },
+    async deposit() {
+      if (this.userFrom.username.search("@") > 0) {
+        /// 当使用邮箱登陆的时候执行
+        const uid = await this.$http.get(
+          `/user/email/${this.userFrom.username}`
+        );
+        let id = uid.data.user._id;
+        const { data } = await this.$http.get(`/user/${id}`);
+        this.$store.state.userInfo = data.data;
+      } else {
+        /// 当使用用户名登录的时候执行
+        const uid = await this.$http.get(
+          `/user/username/${this.userFrom.username}`
+        );
+        let id = uid.data.user._id;
+        const { data } = await this.$http.get(`/user/${id}`);
+        this.$store.state.userInfo = data.data;
+      }
+    },
     async validateCode(rule, value, callback) {
       if (!value) {
         return callback(new Error("验证码不能为空"));
@@ -149,6 +189,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          this.userFrom.username = this.userFrom.username.toLocaleLowerCase();
           const { data } = await this.$http.post("/login", this.userFrom);
           if (data.statusCode === 500) {
             this.$message.error(data.message);

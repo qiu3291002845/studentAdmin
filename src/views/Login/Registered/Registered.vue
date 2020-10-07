@@ -63,6 +63,13 @@ export default {
         callback();
       }
     };
+    var validateUsername = (rule, value, callback) => {
+      if (value.search("@") > 0) {
+        callback(new Error("用户名中不允许有特殊符号"));
+      } else {
+        callback();
+      }
+    };
     return {
       ruleForm: {
         name: "",
@@ -87,6 +94,10 @@ export default {
             min: 6,
             max: 16,
             message: "长度在 6 到 16 个字符",
+            trigger: "blur",
+          },
+          {
+            validator: validateUsername,
             trigger: "blur",
           },
         ],
