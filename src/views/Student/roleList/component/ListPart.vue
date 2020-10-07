@@ -1,89 +1,88 @@
 <template>
-  <el-table
-    class="box"
-    v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-    :data="tableData"
-    :header-row-class-name="headerStyle"
-    border
-    style="width: 100%"
-  >
-    <!-- 头像 -->
-    <el-table-column
+  <div>
+    <el-row class="box">
+      <el-button type="primary" @click="information">新建</el-button>
+    </el-row>
+    <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      :data="tableData"
+      :header-row-class-name="headerStyle"
+      border
+      style="width: 100%"
+      class="tablebox"
+    >
+      <!-- 头像 -->
+      <!-- <el-table-column
       prop="img"
       label="头像"
       width="120"
       align="center"
       class="header-index"
-    >
+    > -->
       <!--头像图片 -->
-      <template class="Avatar">
+      <!-- <template class="Avatar">
         <el-image
           :src="src"
           width="40px"
           height="40px"
-          style="border-radius: 100%"
+          style="border-radius:100%;"
           :preview-src-list="[src]"
         />
       </template>
-    </el-table-column>
-    <!-- 姓名 -->
-    <el-table-column prop="name" label="姓名" width="120"> </el-table-column>
-    <!-- 类型 -->
-    <el-table-column prop="type" label="类型" width="120">
-      <el-row slot-scope="scope">
-        <!-- 判断type的值 如果是0 是学生 如果是1则石老师 -->
-        <span v-if="scope.row.type == 0">学生</span>
-        <span v-else>老师</span>
-      </el-row>
-    </el-table-column>
-    <!-- 日期 -->
-    <el-table-column prop="time" label="日期" width="180"> </el-table-column>
-    <!-- 描述 -->
-    <el-table-column label="描述" width="180">
-      <!-- 判断描述是否为空 如果有就等于暂无成绩 -->
-      <!-- <el-row slot-scope="scope">
+    </el-table-column> -->
+      <!-- 姓名 -->
+      <el-table-column prop="name" label="姓名" width="160"> </el-table-column>
+      <!-- 类型 -->
+      <el-table-column prop="type" label="类型" width="150">
+        <el-row slot-scope="scope">
+          <span v-if="scope.row.type == 0">学生</span>
+          <span v-else>超级管理员</span>
+        </el-row>
+      </el-table-column>
+      <!-- 日期 -->
+      <el-table-column prop="time" label="日期" width="300"> </el-table-column>
+      <!-- 描述 -->
+      <el-table-column label="描述" width="260">
+        <!-- 判断描述是否为空 如果有就等于暂无成绩 -->
+        <!-- <el-row slot-scope="scope">
         <span v-if="scope.row.description.length == 0">
           {{ "暂无成绩" }}
         </span> -->
-      <!-- 否则 -->
-      <!-- <span v-else class="anonymous">
+        <!-- 否则 -->
+        <!-- <span v-else class="anonymous">
           {{ scope.row.description }}
         </span>
       </el-row> -->
-      <div class="anonymous" slot-scope="scope">
-        {{ scope.row.description }}
-      </div>
-    </el-table-column>
-    <!-- 权限按钮 -->
-    <el-table-column prop="purview" label="权限" width="300">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          type="primary"
-          class="Authoritybotton"
-          @click="information(scope.row._id)"
-          >新建</el-button
-        >
-        <el-button
-          size="mini"
-          type="info"
-          class="Authoritybotton"
-          @click="edit(scope.row._id)"
-          >编辑</el-button
-        >
-        <el-button
-          size="mini"
-          type="danger"
-          class="Authoritybotton"
-          @click="dele(scope.row._id)"
-          >删除
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+        <div class="anonymous" slot-scope="scope">
+          {{ scope.row.description }}
+        </div>
+      </el-table-column>
+      <!-- 权限按钮 -->
+      <el-table-column prop="purview" label="权限" width="255">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="info"
+            class="Authoritybotton"
+            @click="edit(scope.row._id)"
+            :disabled="scope.row.purview[1] == 0"
+            >编辑</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            class="Authoritybotton"
+            @click="dele(scope.row._id)"
+            :disabled="scope.row.purview[2] == 0"
+            >删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 <script>
 export default {
@@ -92,13 +91,14 @@ export default {
       loading: true,
       src: "http://wx1.sinaimg.cn/mw690/6a04b428ly1g19al1td90g209q08sq4i.gif",
       // src: "http://wx2.sinaimg.cn/mw690/6a04b428ly1g19akufoa6g209q08amy7.gif",
+
       tableData: [
         {
-          name: " ",
-          purview: [0, 0, 0],
+          name: "你爹",
+          purview: [0, 1, 0],
           type: 0,
           time: 0,
-          description: "",
+          description: "我是你爹",
         },
       ],
     };
@@ -130,18 +130,14 @@ export default {
       return "table-rowIndex";
     },
     //跳转新建页面
-    information(id) {
-      if (this.$store.state.userInfo.role.purview[0] === 0) {
-        this.$message.info("你没有");
-      } else {
-        //将获取到的edit数据id push到路由中
-        this.loading = true;
-        //当点击编辑的时候出现加载
-        //等1秒后跳转
-        setTimeout(() => {
-          this.$router.push(`/RoleEdit/${id}`);
-        }, 1000);
-      }
+    information() {
+      //将获取到的edit数据id push到路由中
+      this.loading = true;
+      //当点击编辑的时候出现加载
+      //等1秒后跳转
+      setTimeout(() => {
+        this.$router.push(`/RoleEdit/RoleEdit`);
+      }, 1000);
     },
     // 跳转编辑页面
     edit(id) {
@@ -150,7 +146,6 @@ export default {
       setTimeout(() => {
         this.$router.push(`/RoleEdit/${id}`);
       }, 1000);
-      console.log();
     },
     //删除数据
     dele(id) {
@@ -166,7 +161,6 @@ export default {
             type: "success",
             message: "删除成功!",
           });
-          console.log(111);
           await this.$http.delete(`/role/${id}`);
           this.findStudent();
         })
@@ -191,8 +185,12 @@ export default {
   margin: 0;
 }
 .box {
-  margin-top: 60px !important;
+  margin-top: 30px !important;
 }
+.tablebox {
+  margin-top: 20px !important;
+}
+
 /* 权限按钮 */
 .Authoritybotton {
   width: 80px;
@@ -206,7 +204,7 @@ export default {
 }
 /* 首行样式 */
 .table-rowIndex {
-  font-size: 24px;
+  font-size: 18px;
 }
 .Avatar {
   width: 40px;

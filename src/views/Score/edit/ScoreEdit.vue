@@ -459,7 +459,6 @@ export default {
   },
   created() {
     this.findStudent();
-    this.same = "第一学期";
   },
 };
 </script>

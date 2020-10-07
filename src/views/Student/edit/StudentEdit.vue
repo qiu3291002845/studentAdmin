@@ -190,7 +190,7 @@ import shuju from "./jtzz.js";
 export default {
   name: "StudentEdit",
   watch: {
-    $route: function(e) {
+    $route: function (e) {
       if (e.path == "/edit") {
         this.ruleForm = {};
         this.$refs["ruleForm"].resetFields();

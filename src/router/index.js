@@ -32,11 +32,6 @@ const routes = [
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
       {
-        path: "/roleList",
-        name: "RoleList",
-        component: () => import("../views/Student/roleList/RoleList.vue"),
-      },
-      {
         path: "/score",
         name: "Score",
         component: () => import("../views/Score/table/Score.vue"),
@@ -57,6 +52,11 @@ const routes = [
         path: "/roleedit/",
         name: "RoleEdit",
         component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+      },
+      {
+        path: "/rolelist",
+        name: "rolelist",
+        component: () => import("../views/Student/roleList/RoleList"),
       },
       {
         path: "/details/:id",
