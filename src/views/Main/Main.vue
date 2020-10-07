@@ -12,7 +12,6 @@
           <el-menu-item-group>
             <template slot="title">管理系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
-            <el-menu-item index='/UserList'>用户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -22,6 +21,15 @@
           <el-menu-item-group>
             <template slot="title">评分系统</template>
             <el-menu-item index="/score">评分系统</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-s-custom"></i>用户管理
+          </template>
+          <el-menu-item-group>
+            <template slot="title">用户管理</template>
+            <el-menu-item index="/UserList">用户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>

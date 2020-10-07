@@ -30,7 +30,7 @@ const routes = [
         path: "/UserList",
         name: "UserList",
         props: true,
-        component: () => import("../views/Student/UserList/UserList.vue"),
+        component: () => import("../views/UserList/UserList.vue"),
       },
       {
         path: "/score",
