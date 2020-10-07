@@ -13,8 +13,7 @@
             <template slot="title">学生系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
             <!-- 角色列表 -->
-            <el-menu-item index="/RoleList">角色列表</el-menu-item>
-            
+            <el-menu-item index="/roleList">角色列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">

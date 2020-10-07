@@ -34,8 +34,9 @@
     <!-- 类型 -->
     <el-table-column prop="type" label="类型" width="120">
       <el-row slot-scope="scope">
+        <!-- 判断type的值 如果是0 是学生 如果是1则石老师 -->
         <span v-if="scope.row.type == 0">学生</span>
-        <span v-else>超级管理员</span>
+        <span v-else>老师</span>
       </el-row>
     </el-table-column>
     <!-- 日期 -->
@@ -91,14 +92,13 @@ export default {
       loading: true,
       src: "http://wx1.sinaimg.cn/mw690/6a04b428ly1g19al1td90g209q08sq4i.gif",
       // src: "http://wx2.sinaimg.cn/mw690/6a04b428ly1g19akufoa6g209q08amy7.gif",
-
       tableData: [
         {
-          name: "你爹",
-          purview: [0, 1, 0],
+          name: " ",
+          purview: [0, 0, 0],
           type: 0,
           time: 0,
-          description: "我是你爹",
+          description: "",
         },
       ],
     };
