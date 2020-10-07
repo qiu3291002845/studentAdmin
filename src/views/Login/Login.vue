@@ -261,20 +261,16 @@ export default {
     async deposit() {
       if (this.userFrom.username.search("@") > 0) {
         /// 当使用邮箱登陆的时候执行
-        const uid = await this.$http.get(
+        const { data } = await this.$http.get(
           `/user/email/${this.userFrom.username}`
         );
-        let id = uid.data.user._id;
-        const { data } = await this.$http.get(`/user/${id}`);
-        this.$store.state.userInfo = data.data;
+        localStorage.setItem("userId", data.user._id);
       } else {
         /// 当使用用户名登录的时候执行
-        const uid = await this.$http.get(
+        const { data } = await this.$http.get(
           `/user/username/${this.userFrom.username}`
         );
-        let id = uid.data.user._id;
-        const { data } = await this.$http.get(`/user/${id}`);
-        this.$store.state.userInfo = data.data;
+        localStorage.setItem("userId", data.user._id);
       }
     },
     async validateCode(rule, value, callback) {

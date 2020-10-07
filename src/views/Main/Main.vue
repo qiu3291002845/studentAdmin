@@ -30,7 +30,11 @@
       <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
         <el-dropdown trigger="click">
           <el-button type="text" style="color: white">
-            管理员<i class="el-icon-arrow-down el-icon--right"></i>
+            {{
+              this.$store.state.userInfo.role.purview.type === 1
+                ? "老师"
+                : "学生"
+            }}<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -92,23 +96,45 @@ export default {
   methods: {
     loginout() {
       storage.clear();
+      localStorage.setItem("userId", "");
       this.$router.push("/login");
+    },
+    async ObtainId() {
+      let id = localStorage.getItem("userId");
+      if (id) {
+        const { data } = await this.$http.get(`/user/${id}`);
+        this.$store.state.userInfo = data.data;
+      } else {
+        this.$notify({
+          title: "警告",
+          message: "该用户异常操作，请重新登录",
+          type: "warning",
+        });
+        this.$router.push("/login");
+      }
     },
   },
   created() {
-    if (this.$store.state.userInfo.role.purview.length === 0) {
-      this.$router.push("/login");
-      this.$notify({
-        title: "警告",
-        message: "你没有该权限请重新登录",
-        type: "warning",
-      });
+    this.ObtainId();
+
+    if (this.$store.state.userInfo) {
+      if (this.$store.state.userInfo.role) {
+        console.log("登录成功");
+      } else {
+        this.$router.push("/login");
+        this.$notify({
+          title: "警告",
+          message: "该用户没有设置权限，请先登录管理员设计权限",
+          type: "warning",
+        });
+      }
     } else {
       this.$notify({
-        title: "登录成功",
-        message: "欢迎访问1903班的学生管理系统",
-        type: "success",
+        title: "警告",
+        message: "该用户不存在，请重新注册登录",
+        type: "warning",
       });
+      this.$router.push("/login");
     }
   },
 };
