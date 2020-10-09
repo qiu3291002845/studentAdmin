@@ -8,14 +8,21 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="名昵" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+      <el-form-item label="昵称" prop="name">
+        <el-input
+          @keyup.enter.native="submitForm('ruleForm')"
+          v-model="ruleForm.name"
+        ></el-input>
       </el-form-item>
       <el-form-item label="用户名" prop="userName">
-        <el-input v-model="ruleForm.userName"></el-input>
+        <el-input
+          @keyup.enter.native="submitForm('ruleForm')"
+          v-model="ruleForm.userName"
+        ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
         <el-input
+          @keyup.enter.native="submitForm('ruleForm')"
           type="password"
           v-model="ruleForm.pass"
           autocomplete="off"
@@ -25,11 +32,15 @@
         <el-input
           type="password"
           v-model="ruleForm.checkPass"
+          @keyup.enter.native="submitForm('ruleForm')"
           autocomplete="off"
         ></el-input>
       </el-form-item>
       <el-form-item label="邮箱地址" prop="email">
-        <el-input v-model="ruleForm.email"></el-input>
+        <el-input
+          v-model="ruleForm.email"
+          @keyup.enter.native="submitForm('ruleForm')"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
@@ -78,22 +89,23 @@ export default {
         checkPass: "",
         email: "",
       },
+      role: "",
       rules: {
         name: [
           { required: true, message: "请输入用户名昵", trigger: "blur" },
           {
-            min: 3,
+            min: 1,
             max: 12,
-            message: "长度在 3 到 12 个字符",
+            message: "长度在 1 到 12 个字符",
             trigger: "blur",
           },
         ],
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           {
-            min: 6,
+            min: 4,
             max: 16,
-            message: "长度在 6 到 16 个字符",
+            message: "长度在 4 到 16 个字符",
             trigger: "blur",
           },
           {
@@ -104,7 +116,7 @@ export default {
         pass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入密码",
             trigger: "blur",
@@ -114,7 +126,7 @@ export default {
         checkPass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入确认密码",
             trigger: "blur",
@@ -133,12 +145,53 @@ export default {
     };
   },
   methods: {
+    // 动态获取role的值
+    async obtainRole() {
+      try {
+        const { data } = await this.$http.get("/role");
+        data.data.map((item) => {
+          if (item.type === 0 && item.purview !== []) {
+            let pur = true;
+            for (let rous in item.purview) {
+              if (item.purview[rous] === 1) {
+                pur = false;
+              }
+            }
+            if (pur) {
+              this.role = item._id;
+            }
+          }
+        });
+      } catch (error) {
+        this.$message.error("获取失败请刷新重试" + this.error.name);
+      }
+    },
+    // 请求邮箱验证接口
+    async sendEmailCode() {
+      try {
+        const { data } = await this.$http.get(
+          `/tool/email/${this.ruleForm.email}`
+        );
+        sessionStorage.setItem("regCode", data.code);
+      } catch (error) {
+        this.$message.error("邮箱验证码获取失败，请重试" + this.error);
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$emit("regEmail", this.ruleForm);
+          let RegForm = {
+            username: this.ruleForm.userName,
+            password: this.ruleForm.pass,
+            avatar: "https://czh1010.oss-cn-beijing.aliyuncs.com/avatar/1.gif",
+            name: this.ruleForm.name,
+            email: this.ruleForm.email,
+            role: this.role, // 动态获取role值,
+          };
+          this.sendEmailCode();
+          this.$emit("regEmailDrArawer", RegForm);
+          this.resetForm("ruleForm");
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -148,13 +201,8 @@ export default {
     },
   },
   created() {
-    this.ruleForm = {
-      name: "",
-      userName: "",
-      pass: "",
-      checkPass: "",
-      email: "",
-    };
+    this.obtainRole(); //动态获取角色内容
+    sessionStorage.removeItem("regCode");
   },
 };
 </script>

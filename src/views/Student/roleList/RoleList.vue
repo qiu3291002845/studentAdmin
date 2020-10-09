@@ -7,7 +7,7 @@
       <div class="i iconfont icon-HOMEMESSAGE"></div>
       <!-- 当前位置和角色管理 -->
       <p>
-        上一级<span style="  font-size: 16px"><a>|角色管理</a></span>
+        当前位置：<span style="  font-size: 16px"><a>角色管理</a></span>
       </p>
     </div>
     <!-- 组件位置 -->

@@ -62,7 +62,7 @@ export default {
         pass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入密码",
             trigger: "blur",
@@ -72,7 +72,7 @@ export default {
         checkPass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入确认密码",
             trigger: "blur",
@@ -88,30 +88,24 @@ export default {
         id: this.chengeId,
         pass: this.ruleForm.pass,
       };
-      const { data } = await this.$http.post("user/updatePass", us);
-      console.log(data);
+      await this.$http.post("user/updatePass", us);
       this.$emit("chengeShutDown");
+      this.ruleForm = {
+        pass: "",
+        checkPass: "",
+      };
     },
     reg(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.chengeId) {
             this.sendUserPass();
-          } else {
-            console.log("1111");
           }
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
     },
-  },
-  created() {
-    this.ruleForm = {
-      pass: "",
-      checkPass: "",
-    };
   },
 };
 </script>

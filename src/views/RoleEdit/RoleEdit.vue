@@ -46,7 +46,6 @@
           </span>
           <template class="Auth-radio" v-if="id">
             <el-checkbox-group v-model="purview" v-if="title.name == ''">
-              <!-- 绑定学生老师权限 -->
               <el-checkbox
                 label="purviewCreate"
                 v-model="purviewCreate"
@@ -73,7 +72,6 @@
           </template>
           <template class="Auth-radio" v-else>
             <el-checkbox-group v-model="purview">
-              <!-- 绑定学生老师权限 -->
               <el-checkbox
                 label="purviewCreate"
                 v-model="purviewCreate"
@@ -97,26 +95,14 @@
         </div>
       </el-form-item>
 
-      <el-form-item label="" prop="resource">
+      <!-- <el-form-item label="" prop="resource">
         <span>职位</span>
         <el-radio-group v-model="title.type" class="position">
           <el-radio :label="0" value="学生">学生</el-radio>
           <el-radio :label="1" value="老师">老师</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <!-- 上传头像 -->
-
-      <el-upload
-        class="avatar-uploader"
-        action=""
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload"
-      >
-        <span>头像上传</span>
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
       <el-button
         type="primary"
         @click="submitForm('title')"
@@ -194,13 +180,12 @@ export default {
     async Information() {
       this.title.time = Number(new Date());
       await this.$http.put(`/role/${this.id}`, this.title);
-      this.$router.push("roleList/RoleList");
+      this.$router.push("roleList");
     },
     // 接收id
     findStudent() {
       this.$http.get(`/role/${this.id}`).then((res) => {
         this.title = res.data.data;
-
         this.purviewCreate = this.title.purview[0];
         this.purviewEdit = this.title.purview[1];
         this.purviewDelete = this.title.purview[2];
@@ -216,7 +201,6 @@ export default {
         this.title.purview[0] = this.purviewCreate;
       }
     },
-
     changeEdit(e) {
       if (e === true) {
         this.purviewEdit = 1;
@@ -226,7 +210,6 @@ export default {
         this.title.purview[1] = this.purviewEdit;
       }
     },
-
     changeDelete(e) {
       if (e === true) {
         this.purviewDelete = 1;
@@ -244,37 +227,23 @@ export default {
           // 上传图片
           // this.title.img = this.imageUrl;
           //上传信息
-
           await this.$http.post("/role", this.title);
-
           this.$router.push("roleList/RoleList");
         } else {
           return false;
         }
       });
     },
-
     resetForm(title) {
       this.$refs[title].resetFields();
     },
-
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
+      console.log(this.imageUrl);
     },
   },
   mounted() {
+    console.log(this.id);
     this.id && this.findStudent();
   },
 };

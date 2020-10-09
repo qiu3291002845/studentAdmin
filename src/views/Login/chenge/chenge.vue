@@ -8,12 +8,16 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="用户名称" prop="userEmail">
-        <el-input v-model="ruleForm.userEmail"></el-input>
+      <el-form-item label="用户名称或邮箱地址" prop="userEmail">
+        <el-input
+          @keyup.enter.native="submitForm('ruleForm')"
+          v-model="ruleForm.userEmail"
+        ></el-input>
       </el-form-item>
       <el-form-item label="旧密码" prop="password">
         <el-input
           type="password"
+          @keyup.enter.native="submitForm('ruleForm')"
           v-model="ruleForm.password"
           autocomplete="off"
         ></el-input>
@@ -44,16 +48,16 @@ export default {
             trigger: "blur",
           },
           {
-            min: 6,
-            max: 16,
-            message: "长度在 6 到 16 个字符",
+            min: 8,
+            max: 32,
+            message: "长度在 8 到 32 个字符",
             trigger: "blur",
           },
         ],
         password: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入密码",
             trigger: "blur",
@@ -66,25 +70,32 @@ export default {
   methods: {
     // 查询用户
     async requesUser() {
-      const { data } = await this.$http.get(
-        `/user/email/${this.ruleForm.userEmail}`
-      );
-      if (data.user !== null) {
-        this.userId = data.user._id;
-        console.log(this.userId);
+      let datar = {};
+      if (this.ruleForm.userEmail.search("@") > 0) {
+        const { data } = await this.$http.get(
+          `/user/email/${this.ruleForm.userEmail}`
+        );
+        datar = data.user;
+      } else {
+        const { data } = await this.$http.get(
+          `/user/username/${this.ruleForm.userEmail}`
+        );
+        datar = data.user;
+      }
+      if (datar !== null) {
+        this.userId = datar._id;
         this.requesLogin();
       } else {
         // 没有user 为空是 没有该用户
         this.$notify({
           title: "错误",
-          message: "该邮箱地址未注册，请重新确认",
+          message: "该用户未注册，请重新确认",
           type: "warning",
         });
       }
     },
     //发起请求校验密码的api
     async requesLogin() {
-      // console.log(this.ruleForm);
       let user = {
         id: this.userId,
         pass: this.ruleForm.password,
@@ -96,6 +107,10 @@ export default {
           type: "success",
         });
         this.$emit("chengesend", this.userId);
+        this.ruleForm = {
+          userEmail: "",
+          password: "",
+        };
       } else {
         this.$notify({
           title: "错误",
@@ -109,7 +124,6 @@ export default {
         if (valid) {
           this.requesUser();
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -117,12 +131,6 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-  },
-  created() {
-    this.ruleForm = {
-      userEmail: "",
-      password: "",
-    };
   },
 };
 </script>

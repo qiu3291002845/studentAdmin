@@ -417,15 +417,9 @@ export default {
       this.$message.success("已评价学生平时成绩");
       this.$router.push(`/details/${this.id}`);
     },
-    inputshuru(val) {
-      console.log(val);
-    },
     onSubmit() {
       this.$http.put(`/student/${this.id}`, this.studentInfo);
       this.$router.push("/score");
-    },
-    handleChange(value) {
-      console.log(value);
     },
     async findStudent() {
       const { data } = await this.$http.get(`student/${this.id}`);
@@ -440,20 +434,14 @@ export default {
     same(n) {
       if (n === "第一学期") {
         this.sames = 0;
-        console.log(this.sames);
-        console.log(this.value);
       } else if (n === "第二学期") {
         this.sames = 1;
-        console.log(this.sames);
       } else if (n === "第三学期") {
         this.sames = 2;
-        console.log(this.sames);
       } else if (n === "第四学期") {
         this.sames = 3;
-        console.log(this.sames);
       } else {
         this.sames = 0;
-        console.log(this.sames);
       }
     },
   },
