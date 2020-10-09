@@ -12,6 +12,7 @@
           <el-menu-item-group>
             <template slot="title">学生系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
+            <el-menu-item index="/rolelist">学生管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -105,7 +106,7 @@ export default {
     },
   },
   created() {
-    if (this.$store.state.userInfo.role.purview.length === 0) {
+    if (this.$store.state.userInfo.role.purview.length == 0) {
       this.$router.push("/login");
       this.$notify({
         title: "警告",

@@ -267,6 +267,7 @@ export default {
         let id = uid.data.user._id;
         const { data } = await this.$http.get(`/user/${id}`);
         this.$store.state.userInfo = data.data;
+        console.log(this.$store.state.userFrom);
       } else {
         /// 当使用用户名登录的时候执行
         const uid = await this.$http.get(
