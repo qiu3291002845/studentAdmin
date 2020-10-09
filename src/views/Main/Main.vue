@@ -7,12 +7,20 @@
       <el-menu router>
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-message"></i>管理系统
+            <i class="el-icon-message"></i>学生管理
           </template>
           <el-menu-item-group>
-            <template slot="title">管理系统</template>
+            <template slot="title">学生系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
-            <el-menu-item index="/rolelist">学生管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-message"></i>用户管理
+          </template>
+          <el-menu-item-group>
+            <template slot="title">用户系统</template>
+            <el-menu-item index="/useredit">用户编辑</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -24,24 +32,6 @@
             <el-menu-item index="/score">评分系统</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-menu"></i>角色管理
-          </template>
-          <el-menu-item-group>
-            <template slot="title">角色系统</template>
-            <el-menu-item index="/roleedit/">角色编辑</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-s-custom"></i>用户管理
-          </template>
-          <el-menu-item-group>
-            <template slot="title">用户管理</template>
-            <el-menu-item index="/UserList">用户管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
       </el-menu>
     </el-aside>
 
@@ -49,8 +39,7 @@
       <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
         <el-dropdown trigger="click">
           <el-button type="text" style="color: white">
-            {{ $store.state.userInfo.role.purview.type === 1 ? "老师" : "学生"
-            }}<i class="el-icon-arrow-down el-icon--right"></i>
+            管理员<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -112,46 +101,8 @@ export default {
   methods: {
     loginout() {
       storage.clear();
-      localStorage.setItem("userId", "");
       this.$router.push("/login");
     },
-    async ObtainId() {
-      let id = localStorage.getItem("userId");
-      if (id) {
-        const { data } = await this.$http.get(`/user/${id}`);
-        this.$store.state.userInfo = data.data;
-      } else {
-        this.$notify({
-          title: "警告",
-          message: "该用户异常操作，请重新登录",
-          type: "warning",
-        });
-        this.$router.push("/login");
-      }
-    },
-  },
-  created() {
-    this.ObtainId();
-
-    if (this.$store.state.userInfo) {
-      if (this.$store.state.userInfo.role) {
-        console.log("登录成功");
-      } else {
-        this.$router.push("/login");
-        this.$notify({
-          title: "警告",
-          message: "该用户没有设置权限，请先登录管理员设计权限",
-          type: "warning",
-        });
-      }
-    } else {
-      this.$notify({
-        title: "警告",
-        message: "该用户不存在，请重新注册登录",
-        type: "warning",
-      });
-      this.$router.push("/login");
-    }
   },
 };
 </script>

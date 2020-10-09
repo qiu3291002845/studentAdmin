@@ -1,4 +1,4 @@
- import Vue from "vue";
+import Vue from "vue";
 import "./plugins/axios";
 import App from "./App.vue";
 import router from "./router";
@@ -9,7 +9,7 @@ import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
 
 Vue.prototype.$http = axios.create({
-    baseURL: "http://www.aimmeng.com:1903",
+  baseURL: "http://www.aimmeng.com:1903",
 });
 
 Vue.config.productionTip = false;
@@ -17,14 +17,9 @@ Vue.config.productionTip = false;
 import VueParticles from "vue-particles";
 Vue.use(VueParticles);
 
-// import "bootstrap/dist/css/bootstrap.css";
-// //导入moment框架
-// import moment from 'moment';
-// Vue.filter('dateFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
-//     return moment(dataStr).format(pattern)
-// });
+import "bootstrap/dist/css/bootstrap.css";
 
 new Vue({
-    router,
-    render: (h) => h(App),
+  router,
+  render: (h) => h(App),
 }).$mount("#app");

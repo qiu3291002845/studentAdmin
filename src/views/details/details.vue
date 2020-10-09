@@ -98,6 +98,7 @@
                   type="primary"
                   icon="el-icon-edit"
                   circle
+                  @click="dialogFormVisible = true"
                 ></el-button>
               </el-button>
               <!-- Form -->
@@ -269,7 +270,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -295,7 +296,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -345,19 +346,14 @@ export default {
         .catch(() => {});
     },
     trundrawer(i) {
-      if (this.$store.state.userInfo.role.purview[1] === 0) {
-        this.$message.info("你没有访问权限s");
-      } else {
-        this.index = i;
-        this.drawerobj = {
-          time: this.obj.usallyScore[i][0].time,
-          type: this.obj.usallyScore[i][0].type,
-          fraction: this.obj.usallyScore[i][0].fraction,
-          description: this.obj.usallyScore[i][0].description,
-        };
-        this.dialog = true;
-        this.dialogFormVisible = true;
-      }
+      this.index = i;
+      this.drawerobj = {
+        time: this.obj.usallyScore[i][0].time,
+        type: this.obj.usallyScore[i][0].type,
+        fraction: this.obj.usallyScore[i][0].fraction,
+        description: this.obj.usallyScore[i][0].description,
+      };
+      this.dialog = true;
     },
     cancelForm() {
       this.loading = false;
@@ -374,28 +370,24 @@ export default {
       this.dialogFormVisible = false;
     },
     open(index) {
-      if (this.$store.state.userInfo.role.purview[2] === 0) {
-        this.$message.info("你没有该权限");
-      } else {
-        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-          .then(() => {
-            this.$message({
-              type: "success",
-              message: "删除成功!",
-            });
-            this.deteusally(index);
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除",
-            });
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
           });
-      }
+          this.deteusally(index);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
   },
   created() {
@@ -405,11 +397,11 @@ export default {
     this.findStudent();
   },
   filters: {
-    timeModify: function (val) {
+    timeModify: function(val) {
       var d = moment(new Date(parseInt(val))).format("YYYY-MM-DD");
       return d;
     },
-    tiemModitys: function (val) {
+    tiemModitys: function(val) {
       var d = moment(new Date(parseInt(val))).format("HH:mm:ss");
       return d;
     },
