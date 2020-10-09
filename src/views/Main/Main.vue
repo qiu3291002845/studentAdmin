@@ -7,11 +7,12 @@
       <el-menu router>
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-message"></i>学生管理
+            <i class="el-icon-message"></i>管理系统
           </template>
           <el-menu-item-group>
-            <template slot="title">学生系统</template>
+            <template slot="title">管理系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
+            <el-menu-item index="/rolelist">学生管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -23,6 +24,24 @@
             <el-menu-item index="/score">评分系统</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-menu"></i>角色管理
+          </template>
+          <el-menu-item-group>
+            <template slot="title">角色系统</template>
+            <el-menu-item index="/roleedit/">角色编辑</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="4">
+          <template slot="title">
+            <i class="el-icon-s-custom"></i>用户管理
+          </template>
+          <el-menu-item-group>
+            <template slot="title">用户管理</template>
+            <el-menu-item index="/UserList">用户管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
       </el-menu>
     </el-aside>
 
@@ -30,10 +49,7 @@
       <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
         <el-dropdown trigger="click">
           <el-button type="text" style="color: white">
-            {{
-              this.$store.state.userInfo.role.purview.type === 1
-                ? "老师"
-                : "学生"
+            {{ $store.state.userInfo.role.purview.type === 1 ? "老师" : "学生"
             }}<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
