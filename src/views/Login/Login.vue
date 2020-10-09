@@ -304,7 +304,7 @@ export default {
 
             //1000 * 60 * 60 * 24 * 7
             storage.save("token", data.token, 1000 * 60 * 60 * 24 * 7);
-            this.$router.push("/");
+              // this.$router.push("/");
           }
         } else {
           this.$message.error("请调整正确的输入框");
