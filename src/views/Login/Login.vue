@@ -31,9 +31,8 @@
         :rules="form"
       >
         <el-form-item class="userInput" prop="username">
-          <label for="username">用户名</label>
           <el-input
-            placeholder="请输入用户名"
+            placeholder="请输入用户名或邮箱地址"
             v-model="userFrom.username"
             id="username"
             @keyup.enter.native="onSubmit('form')"
@@ -41,7 +40,6 @@
           ></el-input>
         </el-form-item>
         <el-form-item class="userInput" prop="password">
-          <label for="password">密码</label>
           <el-input
             placeholder="请输入密码"
             v-model="userFrom.password"
@@ -79,12 +77,90 @@
             >登录</el-button
           >
         </el-form-item>
+        <el-form-item class="footer">
+          <a @click="RegDrawer = true">注册</a>
+          <a @click="RetDrawer = true">找回密码</a>
+          <a @click="chengeDrawer = true">修改密码</a>
+        </el-form-item>
       </el-form>
+      <el-drawer
+        :destroy-on-close="true"
+        custom-class="Drawer-size"
+        :before-close="handleClose"
+        title="用户账号注册"
+        :visible.sync="RegDrawer"
+      >
+        <div>
+          <reg @regEmailDrArawer="sendopen"></reg>
+          <el-drawer
+            title="验证用户邮箱"
+            :append-to-body="true"
+            :before-close="handleClose"
+            :visible.sync="RegInnerDrawer"
+          >
+            <regEmailCode
+              :regForm="RegForm"
+              @regEmailSend="regEmailCodeAccept"
+            ></regEmailCode>
+          </el-drawer>
+        </div>
+      </el-drawer>
+      <el-drawer
+        :destroy-on-close="true"
+        custom-class="Drawer-size"
+        title="用户修改密码"
+        :visible.sync="chengeDrawer"
+        :before-close="chengeHandleClose"
+      >
+        <div>
+          <chenge @chengesend="chengeAccept"></chenge>
+          <el-drawer
+            title="验证用户邮箱"
+            :append-to-body="true"
+            :before-close="chengeHandleClose"
+            :visible.sync="chengeInnerDrawer"
+            :destroy-on-close="true"
+            custom-class="Drawer-size"
+          >
+            <chengeNew
+              :chengeId="chengeId"
+              @chengeShutDown="chengeShutDown"
+            ></chengeNew>
+          </el-drawer>
+        </div>
+      </el-drawer>
+      <el-drawer
+        :destroy-on-close="true"
+        custom-class="Drawer-size"
+        :before-close="RetHandleClose"
+        title="用户找回密码"
+        :visible.sync="RetDrawer"
+      >
+        <div>
+          <Ret @retsendbool="retAccept"></Ret>
+          <el-drawer
+            title="验证用户邮箱"
+            :append-to-body="true"
+            :before-close="RetHandleClose"
+            :visible.sync="RetDInnerDrawer"
+            :destroy-on-close="true"
+            custom-class="Drawer-size"
+          >
+            <Retnew :RetId="RetId" @retShutDown="retShutDown"></Retnew>
+          </el-drawer>
+        </div>
+      </el-drawer>
     </div>
   </div>
 </template>
 
 <script>
+import chenge from "./chenge/chenge"; //  /// 修改密码页面
+import chengeNew from "./chenge/chengNew";
+import Ret from "./Retrieve/Retrieve"; // 找回密码页面引入
+import Retnew from "./Retrieve/RetrieveNew"; // 引入写入密码页面
+import reg from "./Registered/Registered"; // 注册页面引入
+import regEmailCode from "./Registered/RegEmailCode"; // 注册页面中的邮箱验证
 import storage from "sweet-storage";
 export default {
   name: "Login",
@@ -110,7 +186,36 @@ export default {
         ],
       },
       imgSvg: "",
+      // Reg  Drawer 数据
+      RegDrawer: false,
+      RegInnerDrawer: false,
+      RegForm: {
+        username: "admin",
+        password: "123456",
+        avatar: "https://czh1010.oss-cn-beijing.aliyuncs.com/avatar/1.gif",
+        name: "小白",
+        email: "123@qq.com",
+        role: " ",
+      },
+
+      // 修改密码界面 数据
+      chengeDrawer: false,
+      chengeInnerDrawer: false,
+      chengeId: "",
+
+      // 找回密码中的数据
+      RetDrawer: false,
+      RetDInnerDrawer: false,
+      RetId: "", /// 找回密码中的id
     };
+  },
+  components: {
+    reg,
+    regEmailCode,
+    Ret,
+    Retnew,
+    chenge,
+    chengeNew,
   },
   methods: {
     storageInfo() {
@@ -133,23 +238,23 @@ export default {
         }
       }
     },
-    // 检验验证码
+    /// 确认关闭
     handleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("你还未注册完成，确定关闭吗？？")
         .then(() => {
           done();
         })
         .catch(() => {});
     },
     chengeHandleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("找回密码未完成，确定关闭吗？？")
         .then(() => {
           done();
         })
         .catch(() => {});
     },
     RetHandleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("修改密码未完成，确定关闭吗？？")
         .then(() => {
           done();
         })
@@ -187,6 +292,11 @@ export default {
         if (valid) {
           this.userFrom.username = this.userFrom.username.toLocaleLowerCase();
           const { data } = await this.$http.post("/login", this.userFrom);
+          try {
+            this.deposit();
+          } catch (error) {
+            console.log(error);
+          }
           if (data.statusCode === 500) {
             this.$message.error(data.message);
           } else {
@@ -204,12 +314,46 @@ export default {
       });
     },
     async reqCode() {
-      const { data } = await this.$http.get("/login/code");
-      sessionStorage.setItem("code", data.text);
-      this.imgSvg = data.img;
+      try {
+        const { data } = await this.$http.get("/login/code");
+        sessionStorage.setItem("code", data.text);
+        this.imgSvg = data.img;
+      } catch (error) {
+        this.$message.error("获取验证码失败，请重试" + this.error.name);
+      }
     },
     resetCode() {
       this.reqCode();
+    },
+    regEmailCodeAccept() {
+      this.RegInnerDrawer = false;
+      this.RegDrawer = false;
+    },
+    chengeAccept(id) {
+      this.chengeInnerDrawer = true;
+      this.chengeId = id;
+    },
+
+    sendopen(from) {
+      this.RegInnerDrawer = true;
+      this.RegForm = from;
+    },
+    retAccept(id) {
+      this.RetDInnerDrawer = true;
+      this.RetId = id;
+    },
+    retShutDown() {
+      this.RetDrawer = false;
+      this.RetDInnerDrawer = false;
+    },
+    chengeShutDown() {
+      this.chengeDrawer = false;
+      this.chengeInnerDrawer = false;
+      this.$notify({
+        title: "成功",
+        message: "密码修改成功",
+        type: "success",
+      });
     },
     readInfo() {
       if (storage.get("username")) {
@@ -227,14 +371,29 @@ export default {
     },
   },
   created() {
-    this.readInfo();
-    this.reqCode();
+    try {
+      this.readInfo();
+      this.reqCode();
+    } catch (error) {
+      this.$message.error("数据获取失败，请重试" + this.error.name);
+    }
   },
 };
 </script>
 
 <style lang="scss">
 body {
+  .Drawer-size {
+    width: 450px !important;
+  }
+  .footer {
+    width: 70%;
+    margin: 0 auto;
+    a {
+      margin: 0 30px;
+      cursor: pointer;
+    }
+  }
   .loginBox {
     width: 35rem;
     height: 35rem;
@@ -251,6 +410,7 @@ body {
     .title {
       margin-top: 1.75rem;
       font-size: 1.125rem;
+      padding-bottom: 40px;
     }
     .userForm {
       margin: 0 auto;

@@ -12,7 +12,6 @@
           <el-menu-item-group>
             <template slot="title">管理系统</template>
             <el-menu-item index="/">学生管理</el-menu-item>
-            <el-menu-item index="/rolelist">学生管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -30,7 +29,7 @@
           </template>
           <el-menu-item-group>
             <template slot="title">角色系统</template>
-            <el-menu-item index="/roleedit/">角色编辑</el-menu-item>
+            <el-menu-item index="/rolelist/">角色列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -49,7 +48,7 @@
       <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
         <el-dropdown trigger="click">
           <el-button type="text" style="color: white">
-            {{ $store.state.userInfo.role.purview.type === 1 ? "老师" : "学生"
+            {{ $store.state.userInfo.role.name
             }}<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -132,9 +131,11 @@ export default {
   },
   created() {
     this.ObtainId();
-
-    if (this.$store.state.userInfo) {
-      if (this.$store.state.userInfo.role) {
+    if (this.$store.state.userInfo.username > 0) {
+      if (
+        this.$store.state.userInfo.role &&
+        this.$store.state.userInfo.role.name.length > 0
+      ) {
         console.log("登录成功");
       } else {
         this.$router.push("/login");
