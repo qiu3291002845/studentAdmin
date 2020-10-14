@@ -77,7 +77,7 @@
         <template slot="header" slot-scope="scope">
           <span v-if="false">{{ scope }}</span>
           <el-input
-            style="font-size: 6px;"
+            style="font-size: 6px"
             v-model="search"
             @input="inputpsousuo"
             placeholder="输入关键字搜索"
@@ -146,8 +146,13 @@ export default {
       this.findStudent();
     },
     edit(id) {
+      console.log(this.$store.state.userInfo.purview);
+      if (this.$store.state.userInfo.role.purview[1] === 0) {
+        this.$message.info("你没有访问该任务的权限");
+      } else {
+        this.$router.push(`/ScoreEdit/${id}`);
+      }
       //向学生成绩编辑页面传递id
-      this.$router.push(`/ScoreEdit/${id}`);
     },
     information(id) {
       //向个人信息页面传递id
@@ -164,7 +169,6 @@ export default {
         this.count = 1; //否则用户输入的情况下页码跳转到第一页
         const { data } = await this.$http.get(
           `/student/search?keyword=${this.search}&count=${this.count}&pageSize=${this.pageSize}`
-          // 重新获取数据 判断keyword等于this.search并且等于后面的一些数据
         );
         const res = await this.$http.get(
           `/student/search?keyword=${this.search}`
@@ -178,7 +182,7 @@ export default {
       //异步函数方法
       const { data } = await this.$http.get(`/student`);
       //请求数据 data对象解构
-      this.totaldata = data.total;
+      this.totaldata = data.data;
       //把请求数据 解构data.total 赋值给 this.totaldata
     },
     async findStudent() {
@@ -210,7 +214,6 @@ export default {
     },
   },
   created() {
-    //在实例创建完立即调用
     this.findStudent();
     this.findTotal();
   },

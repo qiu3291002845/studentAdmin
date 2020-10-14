@@ -86,19 +86,22 @@
       <el-drawer
         :destroy-on-close="true"
         custom-class="Drawer-size"
+        :before-close="handleClose"
         title="用户账号注册"
         :visible.sync="RegDrawer"
-        size="50%"
       >
         <div>
-          <reg @regEmail="regEmailCode"></reg>
+          <reg @regEmailDrArawer="sendopen"></reg>
           <el-drawer
             title="验证用户邮箱"
             :append-to-body="true"
             :before-close="handleClose"
             :visible.sync="RegInnerDrawer"
           >
-            <regEmailCode @regEmailCodeSend="regEmailCodeAccept"></regEmailCode>
+            <regEmailCode
+              :regForm="RegForm"
+              @regEmailSend="regEmailCodeAccept"
+            ></regEmailCode>
           </el-drawer>
         </div>
       </el-drawer>
@@ -107,7 +110,7 @@
         custom-class="Drawer-size"
         title="用户修改密码"
         :visible.sync="chengeDrawer"
-        size="50%"
+        :before-close="chengeHandleClose"
       >
         <div>
           <chenge @chengesend="chengeAccept"></chenge>
@@ -129,9 +132,9 @@
       <el-drawer
         :destroy-on-close="true"
         custom-class="Drawer-size"
+        :before-close="RetHandleClose"
         title="用户找回密码"
         :visible.sync="RetDrawer"
-        size="50%"
       >
         <div>
           <Ret @retsendbool="retAccept"></Ret>
@@ -192,9 +195,8 @@ export default {
         avatar: "https://czh1010.oss-cn-beijing.aliyuncs.com/avatar/1.gif",
         name: "小白",
         email: "123@qq.com",
-        role: "5f71e5ab8169903a6070158a",
+        role: " ",
       },
-      RegEmailCodeData: "",
 
       // 修改密码界面 数据
       chengeDrawer: false,
@@ -236,23 +238,23 @@ export default {
         }
       }
     },
-    // 检验验证码
+    /// 确认关闭
     handleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("你还未注册完成，确定关闭吗？？")
         .then(() => {
           done();
         })
         .catch(() => {});
     },
     chengeHandleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("找回密码未完成，确定关闭吗？？")
         .then(() => {
           done();
         })
         .catch(() => {});
     },
     RetHandleClose(done) {
-      this.$confirm("你还未输入验证码，确定关闭吗？？")
+      this.$confirm("修改密码未完成，确定关闭吗？？")
         .then(() => {
           done();
         })
@@ -260,10 +262,17 @@ export default {
     },
     async deposit() {
       if (this.userFrom.username.search("@") > 0) {
+        /// 当使用邮箱登陆的时候执行
         const { data } = await this.$http.get(
           `/user/email/${this.userFrom.username}`
         );
-        this.$store.commit("deposit", data.user._id);
+        localStorage.setItem("userId", data.user._id);
+      } else {
+        /// 当使用用户名登录的时候执行
+        const { data } = await this.$http.get(
+          `/user/username/${this.userFrom.username}`
+        );
+        localStorage.setItem("userId", data.user._id);
       }
     },
     async validateCode(rule, value, callback) {
@@ -281,8 +290,13 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          this.userFrom.username = this.userFrom.username.toLocaleLowerCase();
           const { data } = await this.$http.post("/login", this.userFrom);
-          this.deposit();
+          try {
+            this.deposit();
+          } catch (error) {
+            console.log(error);
+          }
           if (data.statusCode === 500) {
             this.$message.error(data.message);
           } else {
@@ -311,104 +325,18 @@ export default {
     resetCode() {
       this.reqCode();
     },
-    // 动态获取role的值
-    async obtainRole() {
-      try {
-        const { data } = await this.$http.get("/role");
-        data.data.map((item) => {
-          if (item.type === 0 && item.purview !== []) {
-            let pur = true;
-            for (let rous in item.purview) {
-              if (item.purview[rous] === 1) {
-                pur = false;
-              }
-            }
-            if (pur) {
-              this.RegForm.role = item._id;
-            }
-          }
-        });
-      } catch (error) {
-        this.$message.error("获取失败请刷新重试" + this.error.name);
-      }
+    regEmailCodeAccept() {
+      this.RegInnerDrawer = false;
+      this.RegDrawer = false;
     },
-    // 请求注册接口
-    async createrUser() {
-      try {
-        const { data } = await this.$http.post("/user", this.RegForm);
-        if (data.statusCode === 200) {
-          this.$notify({
-            title: "成功",
-            message: "这是一条成功的提示消息",
-            type: "success",
-          });
-          this.RegDrawer = false;
-        } else {
-          if (data.error === "username") {
-            this.$notify({
-              title: "错误",
-              message: "用户名被占用，请重新输入",
-              type: "warning",
-            });
-          } else if (data.error === "email") {
-            this.$notify({
-              title: "错误",
-              message: "邮箱被占用，请重新输入",
-              type: "warning",
-            });
-          } else {
-            this.$notify({
-              title: "错误",
-              message: "错误请重新注册",
-              type: "warning",
-            });
-          }
-        }
-      } catch (error) {
-        this.$message.error("注册失败，请刷新页面重试" + this.error.name);
-      }
-    },
-    regEmailCodeAccept(code) {
-      if (this.RegEmailCodeData == code) {
-        this.createrUser();
-        this.RegInnerDrawer = false;
-      } else {
-        this.$notify({
-          title: "错误",
-          message: "验证码错误，请再次输入验证码",
-          type: "warning",
-        });
-      }
-    },
-
     chengeAccept(id) {
       this.chengeInnerDrawer = true;
       this.chengeId = id;
     },
 
-    // 请求邮箱验证接口
-    async sendEmailCode() {
-      try {
-        const { data } = await this.$http.get(
-          `/tool/email/${this.RegForm.email}`
-        );
-        this.RegEmailCodeData = data.code;
-      } catch (error) {
-        this.$message.error("邮箱验证码获取失败，请重试" + this.error.name);
-      }
-      console.log(this.RegEmailCodeData);
-    },
-    regEmailCode(form) {
-      this.RegForm = {
-        username: form.userName,
-        password: form.pass,
-        avatar: "https://czh1010.oss-cn-beijing.aliyuncs.com/avatar/1.gif",
-        name: form.name,
-        email: form.email,
-        role: this.RegForm.role, // 动态获取role值,
-      };
-      this.sendEmailCode();
+    sendopen(from) {
       this.RegInnerDrawer = true;
+      this.RegForm = from;
     },
     retAccept(id) {
       this.RetDInnerDrawer = true;
@@ -421,6 +349,11 @@ export default {
     chengeShutDown() {
       this.chengeDrawer = false;
       this.chengeInnerDrawer = false;
+      this.$notify({
+        title: "成功",
+        message: "密码修改成功",
+        type: "success",
+      });
     },
     readInfo() {
       if (storage.get("username")) {
@@ -439,7 +372,6 @@ export default {
   },
   created() {
     try {
-      this.obtainRole(); //获取角色中的id
       this.readInfo();
       this.reqCode();
     } catch (error) {

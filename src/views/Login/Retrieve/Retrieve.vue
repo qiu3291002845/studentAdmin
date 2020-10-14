@@ -9,14 +9,20 @@
       class="demo-ruleForm"
     >
       <el-form-item label="邮箱地址" prop="email">
-        <el-input v-model="ruleForm.email"></el-input>
+        <el-input
+          @keyup.enter.native="reg('ruleForm')"
+          v-model="ruleForm.email"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="reg('ruleForm')">立即发送验证码</el-button>
       </el-form-item>
 
       <el-form-item label="验证码">
-        <el-input v-model="code"></el-input>
+        <el-input
+          @keyup.enter.native="submitForm('ruleForm')"
+          v-model="code"
+        ></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -38,7 +44,6 @@ export default {
         email: "",
       },
       code: "",
-      codeData: "",
       rules: {
         email: [
           { required: true, message: "请输入邮箱地址", trigger: "blur" },
@@ -54,8 +59,16 @@ export default {
   },
   methods: {
     submitForm() {
-      if (this.code == this.codeData) {
+      let code = sessionStorage.getItem("retCode");
+      if (this.code == code) {
         this.$emit("retsendbool", this.RetId);
+        this.ruleForm = {
+          userName: "",
+          email: "",
+        };
+        this.codeData = "";
+        this.resetForm("ruleForm");
+        this.code = "";
       } else {
         this.$notify({
           title: "错误",
@@ -72,8 +85,7 @@ export default {
       const { data } = await this.$http.get(
         `/tool/email/${this.ruleForm.email}`
       );
-      this.codeData = data.code;
-      console.log(this.codeData);
+      sessionStorage.setItem("retCode", data.code);
     },
     // 根据邮箱查询用户
     async caches() {
@@ -82,7 +94,6 @@ export default {
       );
       if (data.user !== null) {
         this.RetId = data.user._id;
-        console.log(this.RetId);
         this.sendCode();
       } else {
         this.$notify({
@@ -108,12 +119,7 @@ export default {
     },
   },
   created() {
-    this.ruleForm = {
-      userName: "",
-      email: "",
-    };
-    this.codeData = "";
-    this.code = "";
+    sessionStorage.removeItem("retCode");
   },
 };
 </script>

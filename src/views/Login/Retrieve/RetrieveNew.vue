@@ -12,6 +12,7 @@
         <el-form-item label="密码" prop="pass">
           <el-input
             type="password"
+            @keyup.enter.native="reg('ruleForm')"
             v-model="ruleForm.pass"
             autocomplete="off"
           ></el-input>
@@ -19,6 +20,7 @@
         <el-form-item label="确认密码" prop="checkPass">
           <el-input
             type="password"
+            @keyup.enter.native="reg('ruleForm')"
             v-model="ruleForm.checkPass"
             autocomplete="off"
           ></el-input>
@@ -61,7 +63,7 @@ export default {
         pass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入密码",
             trigger: "blur",
@@ -71,7 +73,7 @@ export default {
         checkPass: [
           {
             required: true,
-            min: 8,
+            min: 6,
             max: 16,
             message: "请输入确认密码",
             trigger: "blur",
@@ -96,14 +98,17 @@ export default {
         type: "success",
       });
       this.$emit("retShutDown");
+
+      this.ruleForm = {
+        pass: "",
+        checkPass: "",
+      };
     },
     reg(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.RetId) {
             this.sendUserPass();
-          } else {
-            console.log("1111");
           }
         } else {
           this.$notify({
@@ -117,12 +122,7 @@ export default {
     },
   },
 
-  created() {
-    this.ruleForm = {
-      pass: "",
-      checkPass: "",
-    };
-  },
+  created() {},
 };
 </script>
 <style lang="scss" scoped>

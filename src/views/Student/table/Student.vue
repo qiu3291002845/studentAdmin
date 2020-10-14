@@ -99,7 +99,11 @@ export default {
   },
   methods: {
     createStudent() {
-      this.$router.push("/edit");
+      if (this.$store.state.userInfo.role.purview[0] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
+        this.$router.push("/edit");
+      }
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -147,32 +151,40 @@ export default {
       this.tableData = data.data;
     },
     information(id) {
-      this.$router.push(`/edit/${id}`);
+      if (this.$store.state.userInfo.role.purview[1] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
+        this.$router.push(`/edit/${id}`);
+      }
     },
     info(id) {
       this.$router.push(`/details/${id}`);
     },
     //删除此人信息
     dele(id) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          await this.$http.delete(`/student/${id}`);
-          this.findStudent();
+      if (this.$store.state.userInfo.role.purview[2] === 0) {
+        this.$message.info("您暂时没有访问的权限");
+      } else {
+        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
+          .then(async () => {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            await this.$http.delete(`/student/${id}`);
+            this.findStudent();
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
           });
-        });
+      }
     },
   },
   created() {

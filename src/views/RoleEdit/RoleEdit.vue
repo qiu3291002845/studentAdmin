@@ -1,9 +1,13 @@
 <template>
   <div class="total">
     <p class="Navigation">
-      <el-button type="primary" plain icon="el-icon-back" @click="returns"
-        >上一页</el-button
-      >
+      <el-breadcrumb separator="|">
+        <el-breadcrumb-item :to="{ path: '|' }">
+          <span class="iconfont icon-ai207 iconsize"></span>
+          <span @click="returns" class=""> 上一页 </span>
+        </el-breadcrumb-item>
+        <el-breadcrumb-item class="roleedit">角色编辑</el-breadcrumb-item>
+      </el-breadcrumb>
     </p>
     <el-form
       :model="title"
@@ -38,14 +42,13 @@
         >
         </el-input>
       </el-form-item>
-
       <el-form-item label="" prop="resource">
         <div class="Auth">
           <span class="iconfont icon-quanxian Authority">
             <p>权限管理</p>
           </span>
           <template class="Auth-radio" v-if="id">
-            <el-checkbox-group v-model="purview" v-if="title.name == ''">
+            <el-checkbox-group v-model="purview" v-if="title.name !== ''">
               <!-- 绑定学生老师权限 -->
               <el-checkbox
                 label="purviewCreate"
@@ -77,46 +80,25 @@
               <el-checkbox
                 label="purviewCreate"
                 v-model="purviewCreate"
-                @change="changeCreate"
+                @change="changeCreate(0)"
                 >新建权限</el-checkbox
               >
               <el-checkbox
                 label="purviewEdit"
                 v-model="purviewEdit"
-                @change="changeEdit"
+                @change="changeCreate(1)"
                 >编辑权限</el-checkbox
               >
               <el-checkbox
                 label="purviewDelete"
                 v-model="purviewDelete"
-                @change="changeDelete"
+                @change="changeCreate(2)"
                 >删除权限</el-checkbox
               >
             </el-checkbox-group>
           </template>
         </div>
       </el-form-item>
-
-      <el-form-item label="" prop="resource">
-        <span>职位</span>
-        <el-radio-group v-model="title.type" class="position">
-          <el-radio :label="0" value="学生">学生</el-radio>
-          <el-radio :label="1" value="老师">老师</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <!-- 上传头像 -->
-
-      <el-upload
-        class="avatar-uploader"
-        action=""
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload"
-      >
-        <span>头像上传</span>
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
       <el-button
         type="primary"
         @click="submitForm('title')"
@@ -142,7 +124,6 @@ export default {
       type: String,
     },
   },
-
   data() {
     return {
       isCreate: 0,
@@ -151,7 +132,6 @@ export default {
       purviewDelete: 0,
       text: "",
       textarea: "",
-      imageUrl: "",
       purview: [],
       title: {
         type: 0,
@@ -200,40 +180,22 @@ export default {
     findStudent() {
       this.$http.get(`/role/${this.id}`).then((res) => {
         this.title = res.data.data;
-
         this.purviewCreate = this.title.purview[0];
         this.purviewEdit = this.title.purview[1];
         this.purviewDelete = this.title.purview[2];
       });
     },
-
     changeCreate(e) {
-      if (e === true) {
-        this.purviewCreate = 1;
-        this.title.purview[0] = this.purviewCreate;
-      } else {
-        this.purviewCreate = 0;
-        this.title.purview[0] = this.purviewCreate;
-      }
-    },
-
-    changeEdit(e) {
-      if (e === true) {
-        this.purviewEdit = 1;
-        this.title.purview[1] = this.purviewEdit;
-      } else {
-        this.purviewEdit = 0;
-        this.title.purview[1] = this.purviewEdit;
-      }
-    },
-
-    changeDelete(e) {
-      if (e === true) {
-        this.purviewDelete = 1;
-        this.title.purview[2] = this.purviewDelete;
-      } else {
-        this.purviewDelete = 0;
-        this.title.purview[2] = this.purviewDelete;
+      for (let i = 0; i < 4; i++) {
+        if (e === i) {
+          if (this.title.purview[i] == 1) {
+            this.purviewCreate = 0;
+            this.title.purview[i] = this.purviewCreate;
+          } else {
+            this.purviewCreate = 1;
+            this.title.purview[i] = this.purviewCreate;
+          }
+        }
       }
     },
     //创建
@@ -241,12 +203,9 @@ export default {
       this.$refs[title].validate(async (valid) => {
         if (valid) {
           this.title.time = Number(new Date());
-          // 上传图片
-          // this.title.img = this.imageUrl;
           //上传信息
-
-          await this.$http.post("/role", this.title);
-
+          console.log(this.title);
+          // await this.$http.post("/role", this.title);
           this.$router.push("roleList/RoleList");
         } else {
           return false;
@@ -258,25 +217,15 @@ export default {
       this.$refs[title].resetFields();
     },
 
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      console.log(this.imageUrl);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
+    async ViewRole() {
+      const { data } = await this.$http.get(`/role`);
+      this.title.type = data.data.length + 1;
+      console.log(this.title.type);
     },
   },
   mounted() {
     this.id && this.findStudent();
+    this.ViewRole();
   },
 };
 </script>
@@ -285,10 +234,16 @@ export default {
   height: 3.125rem;
   padding-left: 6.25rem;
   line-height: 3.125rem;
-  font-size: 0.75rem;
-  border-bottom: 1px solid #333;
+  font-size: 1.125rem;
   margin-left: -2.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
+  margin-top: 1.25rem;
+}
+.roleedit {
+  font-size: 1.125rem;
+}
+.iconsize {
+  font-size: 1.5rem;
 }
 .position {
   margin-left: 3.125rem;
@@ -326,70 +281,8 @@ export default {
 .Authority > p {
   font-size: 12px;
 }
-/* 上传头像 */
-.avatar-uploader {
-  margin-left: 5rem;
-}
-.avatar-uploader p {
-  color: teal;
-}
-.avatar-uploader span {
-  font-size: 12px;
-  margin-right: 1.875rem;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed teal;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: teal;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  text-align: center;
-  border: 1px solid teal;
-  margin-bottom: 1.25rem;
-}
-.avatar {
-  width: 60px;
-  height: 60px;
-  display: block;
-}
-/* 头像样式结束 */
 /*提交信息*/
 .Submit {
   margin: 1.25rem 0 0 18.75rem;
-}
-/* 头像上传 */
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 80px;
-  height: 80px;
-  line-height: 80px;
-  text-align: center;
-}
-.avatar {
-  width: 80px;
-  height: 80px;
-  display: block;
 }
 </style>

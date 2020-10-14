@@ -1,0 +1,20 @@
+@font-face {font-family: "iconfont";
+  src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAUAAAsAAAAACYQAAASzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqGXIVUATYCJAMMCwgABCAFhG0HSBssCMgusG3kY5vU4qZbiLzCnOlvuB7DpSzUlbOSTNIByk9BIF8IwA5j0QBRT8BVqvv//dPPCBVfyilJBYzhjfDyUnHjRA9TJ3CF955OQ3mg3x/9eXvfCmmnb9q+7pwOuclV/C4B6nASGhH/rE4OEi5IJJKWZPLzQSIu/4cz/+dyevP5gbW+ZbnMsfWoF2AcUEBjDbsXWYEE5NmQLW/qRwIzi++4DASQCquIyps6BigRgWYRgEacdhMlKlmIHorYerNlYwzagsFOWMUeUBQ2xN+nL1ReJAIYI4Cu6trXaKVqPnz79CosZaF/8OHvzwVgtA3ggIoAAdTW6umNTTMVcXKh4frLTQJh+4qfIpYsdeaZ/vEYUBJIEwJZ1sTcKanlA8GXV2Jocf+3ASbABcoHqgeZWqZRYrhknJnryEOOI4jZRE6Ek1Erf5aWUI0SUuTFDm4A/npMLm2nKHAzbLBDpa/ZBmTiEGTNelOLZH6qJyWtT0wzZBpVqJi3yjSWGLjDtOoWsSq9p51ib2jY8CRd17drkgzm1N4melfu8kdf+FzZszEZZsoYPHk1Ltyry3f87O05eRtf+uF3774cXFlzyb/oKUiLDqCz5w1tar53pUz44hLg35YM9az327n3uK2Zaw7k0+7+0j0vIqRpyz3akDS2DimSvZb0FaaGowfWe3mlbmYrnXZ3nKSoY1n3qHWt55k3U4PXwZa2LRI7KKiUqaDGuxa8bLxcXs2oNu//k/7PoA0Fc0VcQcgKaR2t5Wx+OLEHXHZqqOJTyrnDDZpFcXNTHaFpPylRf+LBeyOvt9S8ga3/qiwUBLkRgqncR6rgZVuwbb8TcT8T/3enEWVJyjCr8vOqc32NJaLGovrR/y8fqPpqM3Nnjld6/EC9WuUaNKsD7mrUi/rC9b+pIfx5PTPzxueTN+HC59rbxhbdDd0F3fnZu39XA2RfU5nDsauqFs8zmokeUnqFf8p6HL94arBp2djY4sdyN+fG/EbrE1XqF12Z+Hcmm2six+jNNIVq7q9ZYcKa2RE9fFdxc+GF/r2YYj2De4O6GXv3RvRSm4tf+LKCHk319ddXrTA+IL/0fPTS+69v8Yziyf8hV69i+Xr6U9ED0RfxTcdDolvOl9Kyp1KDUQCyS+E9u2RypwE8/ov9BhtvJgw2KBv+E6ULAMCzo51LCGeXYnob7C/AS/CHkirbxFJOVh7PJVayzvMoDP11mSGXfmRRIOHl9rq0uhYgtnQOjKUQcLaSqCArgkGpCSZbE5AqaLNdSZqKRbEDoLxlDpCYI8BEXAEu5gYqyBdg0H6AKRaxIHlR8kCldOSUtMBgImBF5nHktPh9NrETSVLfB/awx4SL8pg1BDjkjKPcylWr+WbwAd7HktCIPY8QG7Jhvxc1OdeBx+NHAex3gYXoHIQEyvRVRra9SWfxeymJFjBgQgArZKhxyBgWfj62sDshqX2+D7AL8zDBPbQLwSEAC3H2j1RTWVUF2qzxqWjPZfg0I+zyTEfY3GkjYX5eSGu4gIczfsjk9nEuwILQGb1FKqBMFdNppFajO77O+/r2AEg0mEeMOAmo6u7ORh7W31/b3Khq8XvBYYMBkx3CsC9MUQA=')
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-HOMEMESSAGE:before {
+  content: "\e7eb";
+}
+
+.icon-Homehomepagemenu:before {
+  content: "\e9db";
+}
+
