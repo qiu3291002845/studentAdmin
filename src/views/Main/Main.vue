@@ -29,7 +29,7 @@
           </template>
           <el-menu-item-group>
             <template slot="title">角色系统</template>
-            <el-menu-item index="/RoleEdit/">角色列表</el-menu-item>
+            <el-menu-item index="/RoleList/">角色列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">

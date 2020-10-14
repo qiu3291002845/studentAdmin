@@ -52,18 +52,14 @@ const routes = [
         path: "/roleedit/:id",
         props: true,
         name: "RoleEdit",
-        component: () => import("../views/RoleEdit/RoleEdit.vue"),
+        component: () => import("../views/Role/RoleEdit/RoleEdit.vue"),
       },
       {
         path: "/roleedit/",
         name: "RoleEdit",
-        component: () => import("../views/RoleEdit/RoleEdit.vue"),
+        component: () => import("../views/Role/RoleEdit/RoleEdit.vue"),
       },
-      {
-        path: "/rolelist",
-        name: "rolelist",
-        component: () => import("../views/Student/roleList/RoleList"),
-      },
+
       {
         path: "/details/:id",
         name: "details",
