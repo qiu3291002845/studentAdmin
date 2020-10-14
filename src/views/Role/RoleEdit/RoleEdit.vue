@@ -53,22 +53,19 @@
               <el-checkbox
                 label="purviewCreate"
                 v-model="purviewCreate"
-                @change="changeCreate"
-                :checked="purviewCreate == 1"
+                @change="changeCreate(0)"
                 >新建权限</el-checkbox
               >
               <el-checkbox
                 label="purviewEdit"
                 v-model="purviewEdit"
-                @change="changeEdit"
-                :checked="purviewEdit == 1"
+                @change="changeCreate(1)"
                 >编辑权限</el-checkbox
               >
               <el-checkbox
                 label="purviewDelete"
                 v-model="purviewDelete"
-                @change="changeDelete"
-                :checked="purviewDelete == 1"
+                @change="changeCreate(2)"
                 >删除权限</el-checkbox
               >
             </el-checkbox-group>
@@ -118,6 +115,7 @@
 </template>
 <script>
 import "./iconfont.css";
+import { mapState } from "vuex";
 export default {
   props: {
     id: {
@@ -166,6 +164,9 @@ export default {
       totalType: 0,
     };
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   methods: {
     returns() {
       this.$router.go(-1);
@@ -178,12 +179,17 @@ export default {
     },
     // 接收id
     findStudent() {
-      this.$http.get(`/role/${this.id}`).then((res) => {
-        this.title = res.data.data;
-        this.purviewCreate = this.title.purview[0];
-        this.purviewEdit = this.title.purview[1];
-        this.purviewDelete = this.title.purview[2];
-      });
+      //判断他是否有修改的权限
+      if (this.userInfo.role.purview[1] == 0) {
+        this.$router.push("/RoleList");
+      } else {
+        this.$http.get(`/role/${this.id}`).then((res) => {
+          this.title = res.data.data;
+          this.purviewCreate = this.title.purview[0];
+          this.purviewEdit = this.title.purview[1];
+          this.purviewDelete = this.title.purview[2];
+        });
+      }
     },
     changeCreate(e) {
       for (let i = 0; i < 4; i++) {
@@ -200,29 +206,32 @@ export default {
     },
     //创建
     submitForm(title) {
-      this.$refs[title].validate(async (valid) => {
-        if (valid) {
-          this.title.time = Number(new Date());
-          //上传信息
-          console.log(this.title);
-          // await this.$http.post("/role", this.title);
-          this.$router.push("/RoleList");
-        } else {
-          return false;
-        }
-      });
+      if (this.userInfo.role.purview[0] == 0) {
+        this.$router.push("/RoleList");
+      } else {
+        this.$refs[title].validate(async (valid) => {
+          if (valid) {
+            this.title.time = Number(new Date());
+            //上传信息
+            console.log(this.title);
+            // await this.$http.post("/role", this.title);
+            this.$router.push("/RoleList");
+          } else {
+            return false;
+          }
+        });
+      }
     },
-
     resetForm(title) {
       this.$refs[title].resetFields();
     },
-
     async ViewRole() {
       const { data } = await this.$http.get(`/role`);
       this.title.type = data.data.length + 1;
       console.log(this.title.type);
     },
   },
+
   mounted() {
     this.id && this.findStudent();
     this.ViewRole();
