@@ -32,7 +32,6 @@ export default {
   props: ["id"],
   components: {
     UserFrom,
-    UserMap,
   },
   data() {
     return {
@@ -96,9 +95,22 @@ export default {
       this.userData.role = data.data.role._id;
       this.roleName = roleData.data.data.name;
     },
+    check() {
+      let tf = false;
+      this.$store.state.userInfo.role.purview.map((item) => {
+        if (item) {
+          tf = true;
+        }
+      });
+      if (!tf) {
+        this.$message.info("你没有权限哦，别做做，再做做头打掉，滚走啊");
+        this.$router.push("/");
+      }
+    },
   },
   created() {
     this.$message.success("欢迎来到用户编辑页面");
+    this.check();
   },
   mounted() {
     document.body.style.backgroundColor = "#FBFBFB";

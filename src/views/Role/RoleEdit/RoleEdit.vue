@@ -206,21 +206,17 @@ export default {
     },
     //创建
     submitForm(title) {
-      if (this.userInfo.role.purview[0] == 0) {
-        this.$router.push("/RoleList");
-      } else {
-        this.$refs[title].validate(async (valid) => {
-          if (valid) {
-            this.title.time = Number(new Date());
-            //上传信息
-            console.log(this.title);
-            // await this.$http.post("/role", this.title);
-            this.$router.push("/RoleList");
-          } else {
-            return false;
-          }
-        });
-      }
+      this.$refs[title].validate(async (valid) => {
+        if (valid) {
+          this.title.time = Number(new Date());
+          //上传信息
+          console.log(this.title);
+          // await this.$http.post("/role", this.title);
+          this.$router.push("/RoleList");
+        } else {
+          return false;
+        }
+      });
     },
     resetForm(title) {
       this.$refs[title].resetFields();
@@ -228,13 +224,25 @@ export default {
     async ViewRole() {
       const { data } = await this.$http.get(`/role`);
       this.title.type = data.data.length + 1;
-      console.log(this.title.type);
+    },
+    check() {
+      let tf = false;
+      this.$store.state.userInfo.role.purview.map((item) => {
+        if (item) {
+          tf = true;
+        }
+      });
+      if (!tf) {
+        this.$message.info("你没有权限哦，别做做，再做做头打掉，滚走啊");
+        this.$router.push("/");
+      }
     },
   },
 
   mounted() {
     this.id && this.findStudent();
     this.ViewRole();
+    this.check();
   },
 };
 </script>

@@ -190,7 +190,7 @@ import shuju from "./jtzz.js";
 export default {
   name: "StudentEdit",
   watch: {
-    $route: function(e) {
+    $route: function (e) {
       if (e.path == "/edit") {
         this.ruleForm = {};
         this.$refs["ruleForm"].resetFields();
@@ -422,19 +422,24 @@ export default {
   },
   // 进入组件时执行
   created() {
-    if (this.id) {
-      this.onLoad();
-      try {
-        this.open4();
-      } catch (err) {
-        console.log(err);
+    if (this.$store.state.userInfo.role.purview[2] === 1) {
+      if (this.id) {
+        this.onLoad();
+        try {
+          this.open4();
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        this.$notify({
+          title: "欢迎来到创建用户的界面",
+          message: "在这里你可以尽情的书写你的信息",
+          position: "top-right",
+        });
       }
     } else {
-      this.$notify({
-        title: "欢迎来到创建用户的界面",
-        message: "在这里你可以尽情的书写你的信息",
-        position: "top-right",
-      });
+      this.$message.info("你没有该权限");
+      this.$router.push("/");
     }
   },
 };

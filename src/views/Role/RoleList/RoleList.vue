@@ -7,7 +7,7 @@
       <div class="i iconfont icon-ai207" @click="comeBack"></div>
       <!-- 当前位置和角色管理 -->
       <p>
-        <span style="  font-size: 16px"><a>角色管理</a></span>
+        <span style="font-size: 16px"><a>角色管理</a></span>
       </p>
     </div>
     <!-- 组件位置 -->
@@ -31,6 +31,21 @@ export default {
     comeBack() {
       this.$router.go(-1);
     },
+    check() {
+      let tf = false;
+      this.$store.state.userInfo.role.purview.map((item) => {
+        if (item) {
+          tf = true;
+        }
+      });
+      if (!tf) {
+        this.$message.info("你没有权限哦，别做做，再做做头打掉，滚走啊");
+        this.$router.push('/');
+      }
+    },
+  },
+  created() {
+    this.check();
   },
   //引用组件
   components: {

@@ -182,7 +182,7 @@ export default {
       //异步函数方法
       const { data } = await this.$http.get(`/student`);
       //请求数据 data对象解构
-      this.totaldata = data.data;
+      this.totaldata = data.total;
       //把请求数据 解构data.total 赋值给 this.totaldata
     },
     async findStudent() {

@@ -23,7 +23,7 @@
             <el-menu-item index="/score">评分系统</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="3" v-if="_isTeacher">
           <template slot="title">
             <i class="el-icon-menu"></i>角色管理
           </template>
@@ -32,7 +32,7 @@
             <el-menu-item index="/rolelist">角色列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-submenu index="4" v-if="_isTeacher">
           <template slot="title">
             <i class="el-icon-s-custom"></i>用户管理
           </template>
@@ -48,8 +48,7 @@
       <el-header style="text-align: right; font-size: 12px; height: 6.5vh">
         <el-dropdown trigger="click">
           <el-button type="text" style="color: white">
-            {{ $store.state.userInfo.role.name
-            }}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ _Jobtitle }}<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -108,6 +107,20 @@ export default {
       tableData: Array(20).fill(item),
     };
   },
+  computed: {
+    _Jobtitle() {
+      return this.$store.state.userInfo.name;
+    },
+    _isTeacher() {
+      let tf = false;
+      this.$store.state.userInfo.role.purview.map((item) => {
+        if (item) {
+          tf = true;
+        }
+      });
+      return tf;
+    },
+  },
   methods: {
     loginout() {
       localStorage.setItem("userId", "");
@@ -121,12 +134,12 @@ export default {
       if (id) {
         const { data } = await this.$http.get(`/user/${id}`);
         this.$store.state.userInfo = data.data;
-        if (this.$store.state.userInfo.username > 0) {
+        if (this.$store.state.userInfo.username.length > 0) {
           if (
             this.$store.state.userInfo.role &&
             this.$store.state.userInfo.role.name.length > 0
           ) {
-            console.log("登录成功");
+            console.log(this.$store.state.userInfo.role);
           } else {
             this.ontify("该用户没有设置权限，请先登录管理员设计权限");
             this.$router.push("/login");

@@ -446,7 +446,13 @@ export default {
     },
   },
   created() {
+    if(this.$store.state.userInfo.role.purview[2] === 1){
+      
     this.findStudent();
+    }else{
+      this.$message.info('你没有该权限，正在返回首页')
+      this.$router.push('/')
+    }
   },
 };
 </script>

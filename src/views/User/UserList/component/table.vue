@@ -126,7 +126,7 @@ export default {
   methods: {
     newUser() {
       //新建用户的方法
-      this.$router.push("./userForm");
+      this.$router.push("./UserEdit");
     },
     deleteUser(id) {
       //删除用户的方法
@@ -153,7 +153,7 @@ export default {
     },
     editUser(id) {
       //传递id给编辑页面
-      this.$router.push(`/userForm/${id}`);
+      this.$router.push(`/UserEdit/${id}`);
     },
     async inputSearch() {
       //input关键词搜索
