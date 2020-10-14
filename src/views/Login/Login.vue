@@ -308,7 +308,7 @@ export default {
             this.$router.push("/");
           }
         } else {
-          this.$message.error("请调整正确的输入框");
+          this.$message.error("验证码错误，请输入正确的验证码");
           return false;
         }
       });

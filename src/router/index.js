@@ -21,13 +21,13 @@ const routes = [
       },
       {
         path: "/edit",
-        name: "StudentEdit",
+        name: "edit",
         props: true,
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
       {
         path: "/edit/:id",
-        name: "StudentEdit",
+        name: "edit",
         props: true,
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
@@ -52,17 +52,17 @@ const routes = [
         path: "/roleedit/:id",
         props: true,
         name: "RoleEdit",
-        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+        component: () => import("../views/RoleEdit/RoleEdit.vue"),
       },
       {
-        path: "/roleedit/",
+        path: "/Roleedit",
         name: "RoleEdit",
-        component: () => import("../views/Student/RoleEdit/RoleEdit.vue"),
+        component: () => import("../views/RoleEdit/RoleEdit.vue"),
       },
       {
-        path: "/rolelist",
+        path: "/Rolelist",
         name: "rolelist",
-        component: () => import("../views/Student/roleList/RoleList"),
+        component: () => import("../views/RoleList/RoleList"),
       },
       {
         path: "/details/:id",

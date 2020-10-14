@@ -110,8 +110,9 @@ export default {
   },
   methods: {
     loginout() {
-      storage.clear();
       localStorage.setItem("userId", "");
+      localStorage.clear();
+      storage.clear();
       this.$router.push("/login");
     },
     async ObtainId() {
@@ -119,40 +120,35 @@ export default {
       if (id) {
         const { data } = await this.$http.get(`/user/${id}`);
         this.$store.state.userInfo = data.data;
+        if (this.$store.state.userInfo.username > 0) {
+          if (
+            this.$store.state.userInfo.role &&
+            this.$store.state.userInfo.role.name.length > 0
+          ) {
+            console.log("登录成功");
+          } else {
+            this.ontify("该用户没有设置权限，请先登录管理员设计权限");
+            this.$router.push("/login");
+          }
+        } else {
+          this.ontify("该用户不存在，请重新注册登录");
+          this.$router.push("/login");
+        }
       } else {
-        this.$notify({
-          title: "警告",
-          message: "该用户异常操作，请重新登录",
-          type: "warning",
-        });
+        this.ontify("该用户异常操作，请重新登录");
         this.$router.push("/login");
       }
+    },
+    ontify(mes) {
+      this.$notify({
+        title: "警告",
+        message: mes,
+        type: "warning",
+      });
     },
   },
   created() {
     this.ObtainId();
-    if (this.$store.state.userInfo.username > 0) {
-      if (
-        this.$store.state.userInfo.role &&
-        this.$store.state.userInfo.role.name.length > 0
-      ) {
-        console.log("登录成功");
-      } else {
-        this.$router.push("/login");
-        this.$notify({
-          title: "警告",
-          message: "该用户没有设置权限，请先登录管理员设计权限",
-          type: "warning",
-        });
-      }
-    } else {
-      this.$notify({
-        title: "警告",
-        message: "该用户不存在，请重新注册登录",
-        type: "warning",
-      });
-      this.$router.push("/login");
-    }
   },
 };
 </script>

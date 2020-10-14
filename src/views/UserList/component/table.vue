@@ -205,7 +205,6 @@ export default {
     height: 60%;
     border-radius: 50%;
 }
-
 .el-table-column {
     border: none;
     color: red;
