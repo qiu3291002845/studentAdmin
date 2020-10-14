@@ -5,7 +5,7 @@
       v-model="input"
       placeholder="请输入验证码"
     ></el-input>
-    <el-button @click="reg">确认注册</el-button>
+    <el-button class="mt-2" @click="reg">确认注册</el-button>
   </div>
 </template>
 <script>

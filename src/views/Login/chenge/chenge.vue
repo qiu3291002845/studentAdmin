@@ -8,7 +8,7 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="用户名称或邮箱地址" prop="userEmail">
+      <el-form-item label="用户名" prop="userEmail">
         <el-input
           @keyup.enter.native="submitForm('ruleForm')"
           v-model="ruleForm.userEmail"
