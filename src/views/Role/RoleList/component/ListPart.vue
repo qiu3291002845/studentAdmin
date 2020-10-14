@@ -110,7 +110,7 @@ export default {
       //等1秒后跳转
       setTimeout(() => {
         this.$router.push(`/RoleEdit/RoleEdit`);
-      }, 1000);
+      }, 500);
     },
     // 跳转编辑页面
     edit(id) {
@@ -118,7 +118,7 @@ export default {
       this.loading = true;
       setTimeout(() => {
         this.$router.push(`/RoleEdit/${id}`);
-      }, 1000);
+      }, 500);
     },
     //删除数据
     dele(id) {
@@ -174,9 +174,5 @@ export default {
 /* 首行样式 */
 .table-rowIndex {
   font-size: 18px;
-}
-/*首页样式 */
-.table-rowIndex .el-table_1_column_1 {
-  width: 100px !important;
 }
 </style>
