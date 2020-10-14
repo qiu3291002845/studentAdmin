@@ -1,74 +1,36 @@
 <template>
   <div>
+    <!-- 跳转新建页面 -->
     <el-row class="box">
       <el-button type="primary" @click="information">新建</el-button>
     </el-row>
     <el-table
       v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
       :data="tableData"
       :header-row-class-name="headerStyle"
       border
       style="width: 100%"
       class="tablebox"
     >
-      <!-- 头像 -->
-      <!-- <el-table-column
-      prop="img"
-      label="头像"
-      width="120"
-      align="center"
-      class="header-index"
-    > -->
-      <!--头像图片 -->
-      <!-- <template class="Avatar">
-        <el-image
-          :src="src"
-          width="40px"
-          height="40px"
-          style="border-radius:100%;"
-          :preview-src-list="[src]"
-        />
-      </template>
-    </el-table-column> -->
-      <!-- 姓名 -->
-      <el-table-column prop="name" label="姓名" width="160"> </el-table-column>
-      <!-- 类型 -->
-      <el-table-column prop="type" label="类型" width="150">
-        <el-row slot-scope="scope">
-          <span v-if="scope.row.type == 0">学生</span>
-          <span v-else>超级管理员</span>
-        </el-row>
-      </el-table-column>
-      <!-- 日期 -->
-      <el-table-column prop="time" label="日期" width="300"> </el-table-column>
-      <!-- 描述 -->
-      <el-table-column label="描述" width="260">
-        <!-- 判断描述是否为空 如果有就等于暂无成绩 -->
-        <!-- <el-row slot-scope="scope">
-        <span v-if="scope.row.description.length == 0">
-          {{ "暂无成绩" }}
-        </span> -->
-        <!-- 否则 -->
-        <!-- <span v-else class="anonymous">
-          {{ scope.row.description }}
-        </span>
-      </el-row> -->
-        <div class="anonymous" slot-scope="scope">
-          {{ scope.row.description }}
-        </div>
+      <!-- 循环form表单每项 -->
+      <el-table-column
+        v-for="info in rightHeader"
+        :key="info.key"
+        :property="info.key"
+        :label="info.label"
+        class="anonymous"
+        align="center"
+      >
       </el-table-column>
       <!-- 权限按钮 -->
-      <el-table-column prop="purview" label="权限" width="255">
+      <el-table-column prop="purview" label="操作选项" width="255">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="info"
             class="Authoritybotton"
             @click="edit(scope.row._id)"
-            :disabled="scope.row.purview[1] == 0"
+            :disabled="$store.state.userInfo.role.purview[1] == 0"
             >编辑</el-button
           >
           <el-button
@@ -76,7 +38,7 @@
             type="danger"
             class="Authoritybotton"
             @click="dele(scope.row._id)"
-            :disabled="scope.row.purview[2] == 0"
+            :disabled="$store.state.userInfo.role.purview[2] == 0"
             >删除
           </el-button>
         </template>
@@ -89,16 +51,27 @@ export default {
   data() {
     return {
       loading: true,
-      src: "http://wx1.sinaimg.cn/mw690/6a04b428ly1g19al1td90g209q08sq4i.gif",
-      // src: "http://wx2.sinaimg.cn/mw690/6a04b428ly1g19akufoa6g209q08amy7.gif",
-
+      rightHeader: [
+        {
+          label: "类型",
+          key: "name",
+        },
+        {
+          label: "注册时间",
+          key: "time",
+        },
+        {
+          label: "描述",
+          key: "description",
+        },
+      ],
       tableData: [
         {
-          name: "你爹",
-          purview: [0, 1, 0],
+          name: " ",
+          purview: [0, 0, 0],
           type: 0,
           time: 0,
-          description: "我是你爹",
+          description: " ",
         },
       ],
     };
@@ -125,13 +98,13 @@ export default {
     },
     // 设置表头样式
     headerStyle({ column, columnIndex }) {
-      console.log(column);
-      console.log(columnIndex);
+      console.log(column, columnIndex);
       return "table-rowIndex";
     },
+
     //跳转新建页面
     information() {
-      //将获取到的edit数据id push到路由中
+      //将新建页面的路由 push到路由中
       this.loading = true;
       //当点击编辑的时候出现加载
       //等1秒后跳转
@@ -178,23 +151,19 @@ export default {
   },
 };
 </script>
-
 <style>
 * {
   padding: 0;
   margin: 0;
 }
 .box {
-  margin-top: 30px !important;
+  margin: 30px 0 30px 0 !important ;
 }
-.tablebox {
-  margin-top: 20px !important;
-}
-
 /* 权限按钮 */
 .Authoritybotton {
-  width: 80px;
+  width: 110px;
   height: 40px;
+  font-size: 14px;
 }
 /* 描述出的溢出隐藏 */
 .anonymous {
@@ -206,14 +175,8 @@ export default {
 .table-rowIndex {
   font-size: 18px;
 }
-.Avatar {
-  width: 40px;
-  height: 40px;
-}
-.el-image__inner,
-.el-image__placeholder,
-.el-image__error {
-  width: 50%;
-  height: 50%;
+/*首页样式 */
+.table-rowIndex .el-table_1_column_1 {
+  width: 100px !important;
 }
 </style>
