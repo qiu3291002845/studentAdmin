@@ -59,6 +59,11 @@ const routes = [
         name: "RoleEdit",
         component: () => import("../views/Role/RoleEdit/RoleEdit.vue"),
       },
+      {
+        path: "/rolelist",
+        name: "RoleList",
+        component: () => import("../views/Role/RoleList/RoleList"),
+      },
 
       {
         path: "/details/:id",

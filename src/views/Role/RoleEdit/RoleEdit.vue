@@ -174,7 +174,7 @@ export default {
     async Information() {
       this.title.time = Number(new Date());
       await this.$http.put(`/role/${this.id}`, this.title);
-      this.$router.push("/RoleList");
+      this.$router.push("/rolelist");
     },
     // 接收id
     findStudent() {
