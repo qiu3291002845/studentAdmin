@@ -139,7 +139,7 @@ export default {
             this.$store.state.userInfo.role &&
             this.$store.state.userInfo.role.name.length > 0
           ) {
-            console.log(this.$store.state.userInfo.role);
+            console.log("登录成功");
           } else {
             this.ontify("该用户没有设置权限，请先登录管理员设计权限");
             this.$router.push("/login");

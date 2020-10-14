@@ -97,8 +97,7 @@ export default {
       }
     },
     // 设置表头样式
-    headerStyle({ column, columnIndex }) {
-      console.log(column, columnIndex);
+    headerStyle() {
       return "table-rowIndex";
     },
 

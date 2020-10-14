@@ -146,7 +146,6 @@ export default {
       this.findStudent();
     },
     edit(id) {
-      console.log(this.$store.state.userInfo.purview);
       if (this.$store.state.userInfo.role.purview[1] === 0) {
         this.$message.info("你没有访问该任务的权限");
       } else {

@@ -210,7 +210,6 @@ export default {
         if (valid) {
           this.title.time = Number(new Date());
           //上传信息
-          console.log(this.title);
           // await this.$http.post("/role", this.title);
           this.$router.push("/RoleList");
         } else {

@@ -90,7 +90,6 @@ export default {
     async UserEditInfo() {
       const { data } = await this.$http.get(`/user/${this.id}`);
       this.userData = data.data;
-      console.log(data.data.role._id);
       const roleData = await this.$http.get(`/role/${data.data.role._id}`);
       this.userData.role = data.data.role._id;
       this.roleName = roleData.data.data.name;
