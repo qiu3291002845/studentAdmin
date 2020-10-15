@@ -4,15 +4,15 @@
       <!-- 顶部位置 -->
       <el-header
         ><h5 class="headerTitle el-icon-s-custom">
-          <span style="color: #000">当前位置</span> > 用户管理 >
-          {{ userData.name == "" ? "新建用户" : "用户编辑" }}
+          <span style="color: #000">当前位置</span> > <router-link to="/userlist">用户管理</router-link> >
+          {{ !id ? "新建用户" : "用户编辑" }}
         </h5></el-header
       >
       <!-- 分割线 -->
       <el-divider></el-divider>
       <!-- 用户信息 -->
       <h2 style="color: #000">
-        {{ userData.name == "" ? "新建用户" : "用户编辑" }}
+        {{ !id ? "新建用户" : "用户编辑" }}
       </h2>
       <el-container class="mt-3" style="background: #fff; padding: 1rem">
         <UserFrom

@@ -1,9 +1,7 @@
 <template>
   <div>
     <!-- 跳转新建页面 -->
-    <el-row class="box">
-      <el-button type="primary" @click="information">新建</el-button>
-    </el-row>
+    <el-button type="primary" @click="information">新建</el-button>
     <el-table
       v-loading="loading"
       :data="tableData"

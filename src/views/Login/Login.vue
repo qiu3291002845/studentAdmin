@@ -292,19 +292,14 @@ export default {
         if (valid) {
           this.userFrom.username = this.userFrom.username.toLocaleLowerCase();
           const { data } = await this.$http.post("/login", this.userFrom);
-          try {
-            this.deposit();
-          } catch (error) {
-            console.log(error);
-          }
           if (data.statusCode === 500) {
             this.$message.error(data.message);
           } else {
             this.$message.success("登录成功");
             this.storageInfo();
-
             //1000 * 60 * 60 * 24 * 7
             storage.save("token", data.token, 1000 * 60 * 60 * 24 * 7);
+            this.deposit();
             this.$router.push("/");
           }
         } else {

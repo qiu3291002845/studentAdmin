@@ -212,8 +212,9 @@ export default {
       this.$refs[title].validate(async (valid) => {
         if (valid) {
           this.title.time = Number(new Date());
+          this.ViewRole()
           //上传信息
-          // await this.$http.post("/role", this.title);
+          await this.$http.post("/role", this.title);
           this.$router.push("/RoleList");
         } else {
           return false;
@@ -223,9 +224,18 @@ export default {
     resetForm(title) {
       this.$refs[title].resetFields();
     },
-    async ViewRole() {
-      const { data } = await this.$http.get(`/role`);
-      this.title.type = data.data.length + 1;
+    ViewRole() {
+      let numPreview = 0;
+        this.title.purview.map(item => {
+          if(item == 1){
+            numPreview ++;
+          }
+        })
+      if(numPreview > 0){
+        this.title.type = 1;
+      }else{
+        this.title.type = 0;
+      }
     },
     check() {
       let tf = false;

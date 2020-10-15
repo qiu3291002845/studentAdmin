@@ -22,7 +22,6 @@ const routes = [
       {
         path: "/edit",
         name: "edit",
-        props: true,
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
       {
@@ -34,23 +33,28 @@ const routes = [
       {
         path: "/UserList",
         name: "UserList",
-        props: true,
         component: () => import("../views/User/UserList/UserList.vue"),
       },
       {
-        path: '/useredit',
+        path: "/useredit",
         name: "useredit",
-        component: () => import("../views/User/UserEdit/UserEdit")
+        component: () => import("../views/User/UserEdit/UserEdit"),
       },
       {
-        path: '/useredit/:id',
+        path: "/useredit/:id",
+        name:"usereditId",
         props: true,
-        component: () => import("../views/User/UserEdit/UserEdit")
+        component: () => import("../views/User/UserEdit/UserEdit"),
       },
       {
         path: "/score",
         name: "Score",
         component: () => import("../views/Score/table/Score.vue"),
+      },
+      {
+        path: "/scoreEdit",
+        name: "ScoreEdit",
+        component: () => import("../views/Score/edit/ScoreEdit.vue"),
       },
       {
         path: "/scoreEdit/:id",
@@ -74,7 +78,6 @@ const routes = [
         name: "RoleList",
         component: () => import("../views/Role/RoleList/RoleList"),
       },
-
       {
         path: "/details/:id",
         name: "details",

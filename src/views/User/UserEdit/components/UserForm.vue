@@ -51,6 +51,22 @@
       </el-form-item>
       <el-form-item label="用户权限：" prop="role">
         <el-select
+          v-if="!id"
+          clearable
+          v-model="userData.role"
+          :placeholder="id ? roleName : `请选择角色`"
+          @visible-change="findRole"
+        >
+          <el-option
+            v-for="item in roles"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          >
+          </el-option>
+        </el-select>
+         <el-select
+          v-else
           clearable
           v-model="roleId"
           :placeholder="id ? roleName : `请选择角色`"
@@ -272,9 +288,10 @@ export default {
             await this.$http.put(`/user/${this.userData._id}`, this.userData);
             this.$message.success("修改成功");
           } else {
-            await this.$http.post("/user", this.userData);
-            this.$message.success("新建成功");
-            this.$router.push("/");
+            console.log(this.userData);
+            // await this.$http.post("/user", this.userData);
+            // this.$message.success("新建成功");
+            // this.$router.push("/");
           }
         } else {
           return false;
