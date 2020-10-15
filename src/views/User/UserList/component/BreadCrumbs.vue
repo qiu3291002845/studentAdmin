@@ -8,8 +8,14 @@
 export default {
     methods: {
         goBack() {
-            this.$router.push("/");
+            this.$router.go(-1);
         }
     }
 }
 </script>
+<style scoped>
+/deep/ .el-page-header:hover {
+    color: red;
+    transition: 0.5s;
+}
+</style>

@@ -269,7 +269,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -295,7 +295,7 @@ export default {
             },
             axisPointer: {
               label: {
-                formatter: function (params) {
+                formatter: function(params) {
                   return (
                     "分数  " +
                     params.value +
@@ -405,11 +405,11 @@ export default {
     this.findStudent();
   },
   filters: {
-    timeModify: function (val) {
+    timeModify: function(val) {
       var d = moment(new Date(parseInt(val))).format("YYYY-MM-DD");
       return d;
     },
-    tiemModitys: function (val) {
+    tiemModitys: function(val) {
       var d = moment(new Date(parseInt(val))).format("HH:mm:ss");
       return d;
     },
@@ -418,8 +418,8 @@ export default {
 </script>
 <style lang="scss" scope>
 .echarts {
-  width: 800px;
-  height: 400px;
+  width: 95rem;
+  height: 40rem;
 }
 ul {
   list-style: none;

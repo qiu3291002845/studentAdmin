@@ -1,15 +1,6 @@
 <template>
   <!-- div 跟标签 -->
   <div>
-    <!-- 当前位置部分 -->
-    <div class="currentlocation">
-      <!-- 图标 -->
-      <div class="i iconfont icon-ai207" @click="comeBack"></div>
-      <!-- 当前位置和角色管理 -->
-      <p>
-        <span style="font-size: 16px"><a>角色管理</a></span>
-      </p>
-    </div>
     <!-- 组件位置 -->
     <ListPart></ListPart>
     <nav></nav>
@@ -40,7 +31,7 @@ export default {
       });
       if (!tf) {
         this.$message.info("你没有权限哦，别做做，再做做头打掉，滚走啊");
-        this.$router.push('/');
+        this.$router.push("/");
       }
     },
   },

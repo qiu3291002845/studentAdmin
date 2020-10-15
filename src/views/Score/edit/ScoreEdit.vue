@@ -256,7 +256,7 @@ export default {
   props: ["id"],
   data() {
     return {
-      same: "",
+      same: "第一学期",
       sames: 0,
       studentInfo: {
         time: "",
