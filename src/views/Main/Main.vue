@@ -163,6 +163,7 @@ export default {
   },
   created() {
     this.ObtainId();
+    console.log(this.$store.state.userInfo);
   },
 };
 </script>

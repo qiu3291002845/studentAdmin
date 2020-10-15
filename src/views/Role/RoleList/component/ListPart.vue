@@ -108,7 +108,7 @@ export default {
       //当点击编辑的时候出现加载
       //等1秒后跳转
       setTimeout(() => {
-        this.$router.push(`/RoleEdit/RoleEdit`);
+        this.$router.push(`/RoleEdit`);
       }, 500);
     },
     // 跳转编辑页面
