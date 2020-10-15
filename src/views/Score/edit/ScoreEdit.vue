@@ -174,7 +174,6 @@
                 label="描述文字"
                 placeholder="请选择分值"
                 v-model="usally[0].fraction"
-                @change="handleChange"
                 :value="usally[0].fraction"
               ></el-input-number>
             </el-form-item>
@@ -223,6 +222,7 @@
                 <el-input
                   placeholder="请填入全栈成绩"
                   v-model="studentInfo.professionScore[sames][0].fullStack"
+                  @input.native="numFilters"
                   :disabled="!id"
                   class="selectionperiodCopy"
                   :rules="[
@@ -234,6 +234,7 @@
                 <el-input
                   placeholder="请填入素质成绩"
                   v-model="studentInfo.professionScore[sames][0].quality"
+                  @input.native="numFilters"
                   :disabled="!id"
                 >
                 </el-input>
@@ -410,6 +411,17 @@ export default {
     returns() {
       this.$router.go(-1);
     },
+    numFilters(e) {
+      if (e.target.value > 100) {
+        this.$message.info("成绩最高为100");
+        e.target.value = 100;
+      } else if (e.target.value < 0) {
+        this.$message.info("成绩最低为0");
+        e.target.value = 0;
+      } else {
+        return e;
+      }
+    },
     async addusally() {
       this.usally[0].time = Number(new Date());
       this.studentInfo.usallyScore.push(this.usally);
@@ -446,12 +458,11 @@ export default {
     },
   },
   created() {
-    if(this.$store.state.userInfo.role.purview[2] === 1){
-      
-    this.findStudent();
-    }else{
-      this.$message.info('你没有该权限，正在返回首页')
-      this.$router.push('/')
+    if (this.$store.state.userInfo.role.purview[2] === 1) {
+      this.findStudent();
+    } else {
+      this.$message.info("你没有该权限，正在返回首页");
+      this.$router.push("/");
     }
   },
 };

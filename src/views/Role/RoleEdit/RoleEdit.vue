@@ -54,18 +54,21 @@
                 label="purviewCreate"
                 v-model="purviewCreate"
                 @change="changeCreate(0)"
+                :checked="purviewCreate == 1"
                 >新建权限</el-checkbox
               >
               <el-checkbox
                 label="purviewEdit"
                 v-model="purviewEdit"
                 @change="changeCreate(1)"
+                :checked="purviewEdit == 1"
                 >编辑权限</el-checkbox
               >
               <el-checkbox
                 label="purviewDelete"
                 v-model="purviewDelete"
                 @change="changeCreate(2)"
+                :checked="purviewDelete == 1"
                 >删除权限</el-checkbox
               >
             </el-checkbox-group>
@@ -105,7 +108,7 @@
       >
       <el-button
         type="primary"
-        @click="Information('title')"
+        @click="Information()"
         class="Submit"
         v-else
         >修改信息</el-button
