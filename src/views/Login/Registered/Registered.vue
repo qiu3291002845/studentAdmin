@@ -149,17 +149,19 @@ export default {
     async obtainRole() {
       try {
         const { data } = await this.$http.get("/role");
+        console.log(data.data);
         data.data.map((item) => {
+          console.log(item);
           if (item.type === 0 && item.purview !== []) {
-            let pur = true;
-            for (let rous in item.purview) {
-              if (item.purview[rous] === 1) {
-                pur = false;
-              }
-            }
-            if (pur) {
+            // let pur = true;
+            // for (let rous in item.purview) {
+            //   if (item.purview[rous] === 1) {
+            //     pur = false;
+            //   }
+            // }
+            // if (pur) {
               this.role = item._id;
-            }
+            // }
           }
         });
       } catch (error) {

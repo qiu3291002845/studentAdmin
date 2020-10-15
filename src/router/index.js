@@ -42,6 +42,7 @@ const routes = [
       },
       {
         path: "/useredit/:id",
+        name:"usereditId",
         props: true,
         component: () => import("../views/User/UserEdit/UserEdit"),
       },

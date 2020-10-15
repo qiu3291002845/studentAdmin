@@ -107,7 +107,7 @@ export default {
             })
         },
         editUser(id) { //传递id给编辑页面
-            this.$router.push(`/UserEdit/${id}`);
+            this.$router.push(`/useredit/${id}`);
         },
         async inputSearch() { //input关键词搜索
             if (this.search == "") {
