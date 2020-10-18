@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import storage from "sweet-storage";
+// import storage from "sweet-storage";
 
 Vue.use(VueRouter);
 
@@ -42,7 +42,7 @@ const routes = [
       },
       {
         path: "/useredit/:id",
-        name:"usereditId",
+        name: "usereditId",
         props: true,
         component: () => import("../views/User/UserEdit/UserEdit"),
       },
@@ -89,8 +89,58 @@ const routes = [
   {
     path: "/login",
     component: () => import("../views/Login/Login.vue"),
-    name: "Login",
+    name: "Logins",
     meta: { isPublic: true },
+    children: [
+      {
+        path: '/',
+        redirect: {
+          name: 'Login'
+        }
+      },
+      {
+        path: '/Login',
+        name: 'Login',
+        component: () => import('../views/Login/component/Login.vue')
+      },
+      {
+        path: '/Reg',
+        name: 'Registered',
+        component: () => import('../views/Login/component/Registered.vue')
+      },
+      {
+        path: '/Ret',
+        name: 'reg',
+        component: () => import('../views/Login/component/Retrieve.vue'),
+        children: [
+          {
+            path: '/',
+            name: 'Retrive',
+            component: () => import('../views/Login/component/RetrieveComponent/Retrieve.vue')
+          }, {
+            path: '/RetPass',
+            name: 'RetPass',
+            component: () => import('../views/Login/component/RetrieveComponent/RetrieveNew.vue')
+          }
+        ]
+      },
+      {
+        path: '/Chenge',
+        name: 'chenge',
+        component: () => import('../views/Login/component/Chenge.vue'),
+        children: [
+          {
+            path: '/',
+            name: 'Chenge',
+            component: () => import('../views/Login/component/ChengeComponent/Chenge.vue')
+          }, {
+            path: '/ChengePass',
+            name: 'ChengePass',
+            component: () => import('../views/Login/component/ChengeComponent/chengNew.vue')
+          },
+        ]
+      }
+    ]
   },
 ];
 const router = new VueRouter({
@@ -98,10 +148,10 @@ const router = new VueRouter({
   // base: process.env.BASE_URL,
   routes,
 });
-router.beforeEach((to, from, next) => {
-  if (!to.meta.isPublic && !storage.get("token")) {
-    return next("/login");
-  }
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (!to.meta.isPublic && !storage.get("token")) {
+//     return next("/login");
+//   }
+//   next();
+// });
 export default router;

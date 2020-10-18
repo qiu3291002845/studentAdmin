@@ -126,7 +126,6 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.clear();
       storage.clear();
-      localStorage.setItem("userId", "");
       this.$router.push("/login");
     },
     async ObtainId() {
@@ -163,7 +162,6 @@ export default {
   },
   created() {
     this.ObtainId();
-    console.log(this.$store.state.userInfo);
   },
 };
 </script>

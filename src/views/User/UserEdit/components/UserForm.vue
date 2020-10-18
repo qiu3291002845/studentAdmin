@@ -288,7 +288,6 @@ export default {
             await this.$http.put(`/user/${this.userData._id}`, this.userData);
             this.$message.success("修改成功");
           } else {
-            console.log(this.userData);
             // await this.$http.post("/user", this.userData);
             // this.$message.success("新建成功");
             // this.$router.push("/");
