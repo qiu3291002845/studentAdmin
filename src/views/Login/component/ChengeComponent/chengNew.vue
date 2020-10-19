@@ -97,7 +97,6 @@ export default {
         id: this.$route.params.id,
         pass: this.ruleForm.pass,
       };
-      console.log(us);
       const { data } = await this.$http.post("user/updatePass", us);
       if (data.success === "修改成功") {
         this.$notify({

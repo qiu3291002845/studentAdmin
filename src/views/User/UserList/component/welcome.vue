@@ -1,5 +1,5 @@
 <template>
-  <el-button style="border: none;" plain @click="Notice"> </el-button>
+  <el-button style="border: none" plain @click="Notice"> </el-button>
 </template>
 <script>
 export default {
@@ -19,7 +19,6 @@ export default {
   },
   created() {
     this.Notice();
-    console.log(this.$store.state.userInfo.name);
   },
 };
 </script>
