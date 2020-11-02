@@ -107,7 +107,7 @@ export default {
         type: "success",
       });
       this.$emit("retShutDown");
-
+      this.$router.push("/login");
       this.ruleForm = {
         pass: "",
         checkPass: "",

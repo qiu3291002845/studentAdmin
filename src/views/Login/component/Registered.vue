@@ -206,8 +206,14 @@ export default {
       try {
         const { data } = await this.$http.get("/role");
         data.data.map((item) => {
-          if (item.type === 0 && item.purview !== []) {
-            this.role = item._id;
+          if (item.purview !== []) {
+            if (
+              item.purview[0] === 0 &&
+              item.purview[1] === 0 &&
+              item.purview[2] === 0
+            ) {
+              this.role = item._id;
+            }
           }
         });
       } catch (error) {
@@ -243,7 +249,6 @@ export default {
             message: "注册成功，请登录",
             type: "success",
           });
-          this.RegDrawer = false;
         } else {
           if (data.error === "username") {
             this.$notify({
@@ -280,6 +285,7 @@ export default {
             email: this.ruleForm.email,
             role: this.role, // 动态获取role值,
           };
+          console.log(RegForm);
           this.regApi(RegForm);
           this.resetForm("ruleForm");
         } else {

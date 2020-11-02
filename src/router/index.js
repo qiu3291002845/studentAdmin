@@ -11,8 +11,7 @@ const routes = [
     children: [
       {
         path: "/",
-        name: "Student",
-        component: () => import("../views/Student/table/Student.vue"),
+        redirect: '/student'
       },
       {
         path: "/student",
@@ -26,7 +25,7 @@ const routes = [
       },
       {
         path: "/edit/:id",
-        name: "edit",
+        name: "editD",
         props: true,
         component: () => import("../views/Student/edit/StudentEdit.vue"),
       },
@@ -59,13 +58,13 @@ const routes = [
       {
         path: "/scoreEdit/:id",
         props: true,
-        name: "ScoreEdit",
+        name: "ScoreEditD",
         component: () => import("../views/Score/edit/ScoreEdit.vue"),
       },
       {
         path: "/roleedit/:id",
         props: true,
-        name: "RoleEdit",
+        name: "RoleEditD",
         component: () => import("../views/Role/RoleEdit/RoleEdit.vue"),
       },
       {
@@ -89,7 +88,6 @@ const routes = [
   {
     path: "/login",
     component: () => import("../views/Login/Login.vue"),
-    name: "Logins",
     meta: { isPublic: true },
     children: [
       {
@@ -110,7 +108,6 @@ const routes = [
       },
       {
         path: '/Ret',
-        name: 'reg',
         component: () => import('../views/Login/component/Retrieve.vue'),
         children: [
           {
@@ -126,7 +123,6 @@ const routes = [
       },
       {
         path: '/Chenge',
-        name: 'chenge',
         component: () => import('../views/Login/component/Chenge.vue'),
         children: [
           {

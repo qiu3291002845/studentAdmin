@@ -65,7 +65,7 @@
           >
           </el-option>
         </el-select>
-         <el-select
+        <el-select
           v-else
           clearable
           v-model="roleId"
@@ -259,7 +259,6 @@ export default {
     },
     // 上传文件之前的钩子
     beforeUpload(file) {
-      console.log(file);
       const isJPG = file.type === "image/jpeg" || "image/gif" || "image/png";
       if (!isJPG) {
         this.$message.error("上传头像图片只能是 JPG,png,gif 格式!");
@@ -268,13 +267,13 @@ export default {
     },
     // 头像上传成功
     async uploadSuccess(response, file) {
-      this.userData.avatar = URL.createObjectURL(file.raw);
-      this.userData.avatar = response.src;
       console.log(file);
+      this.avatar = URL.createObjectURL(file.raw);
+      this.userData.avatar = response.src;
     },
     // 上传失败
     uploadError() {
-      this.$refs["upload"].clearFiles();
+      // this.$refs["upload"].clearFiles();
       this.$message.error("上传失败,请重新上传");
     },
     // 用户提交
